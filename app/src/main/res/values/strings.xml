@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">DemoAndroid</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="timer">Timer</string>
+    <string name="alarm">Alarm</string>
+    <string name="stop_watch">Stop watch</string>
+    <string name="world_clock">World clock</string>
+</resources>
