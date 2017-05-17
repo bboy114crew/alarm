@@ -2,7 +2,9 @@ package com.thangnv.fu;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -25,12 +27,13 @@ public class AlarmDialog extends Dialog {
         super(activity);
     }
 
-    public AlarmDialog(Context activity, String time,int position) {
+    public AlarmDialog(Context activity, String time, int position) {
         super(activity);
         this.time = time;
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,12 +43,13 @@ public class AlarmDialog extends Dialog {
         btnSave = (TextView) findViewById(R.id.btn_save);
         timePicker = (TimePicker) findViewById(R.id.timePicker);
 
-        timePicker.setIs24HourView(true);
+        //timePicker.setIs24HourView(true);
+        String[] parts = time.split(":");
+        int newHour = Integer.parseInt(parts[0]);
+        int newMinutes = Integer.parseInt(parts[1]);
         if (time != null) {
-//            timePicker.setHour();
-//            timePicker.setMinute();
-
-
+            timePicker.setCurrentHour(newHour);
+            timePicker.setCurrentMinute(newMinutes);
         }
         timePicker.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
             @Override
@@ -56,12 +60,10 @@ public class AlarmDialog extends Dialog {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(time!=null){
+                if (time != null) {
 
                 }
             }
         });
-
-
     }
 }
