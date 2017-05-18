@@ -10,6 +10,6 @@ public interface OnSaveAlarmListener {
 
     void onCancel();
 
-    void onSaveSuccess(int position, int state);
+    void onSaveSuccess(String time,int position, int state);
 }
 

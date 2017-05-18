@@ -7,17 +7,23 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
+import com.thangnv.fu.common.DbUtil;
 import com.thangnv.fu.listener.OnClickItemListViewListener;
+import com.thangnv.fu.listener.OnSaveAlarmListener;
 import com.thangnv.fu.model.AlarmInfo;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import io.realm.Realm;
+import io.realm.RealmChangeListener;
 
-public class AlarmFragment extends Fragment {
+
+public class AlarmFragment extends Fragment implements OnSaveAlarmListener {
 
     private static final String TAG = "AlarmFragment";
     private static final String ARG_PARAM1 = "param1";
@@ -30,8 +36,11 @@ public class AlarmFragment extends Fragment {
 
     private CustomListAdapter adapter;
     private List<Long> listAlarms;
+    private Realm realm;
+    private List<AlarmInfo> mAlarmInfos;
+    private ImageView addAlarm;
+    private TextView deleteAlarm;
 
-    private List<AlarmInfo> mListAlarmses;
 
     public AlarmFragment() {
     }
@@ -53,16 +62,19 @@ public class AlarmFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
+        realm = Realm.getDefaultInstance();
+        mAlarmInfos = DbUtil.getAllAlarm(realm);
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        mListAlarmses = getListData();
-        adapter = new CustomListAdapter(getActivity(), mListAlarmses, new OnClickItemListViewListener() {
+        adapter = new CustomListAdapter(getActivity(), mAlarmInfos, new OnClickItemListViewListener() {
             @Override
             public void OnClickItem(View mView, int position) {
-                AlarmDialog alarmDialog = new AlarmDialog(getActivity(), mListAlarmses.get(position).getTimeAlarm(), position);
+                AlarmDialog alarmDialog = new AlarmDialog(getActivity(), mAlarmInfos.get(position).getTimeAlarm(),
+                        position, AlarmFragment.this);
                 WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
                 lp.copyFrom(alarmDialog.getWindow().getAttributes());
                 lp.width = WindowManager.LayoutParams.MATCH_PARENT;
@@ -70,41 +82,27 @@ public class AlarmFragment extends Fragment {
                 alarmDialog.show();
                 alarmDialog.getWindow().setAttributes(lp);
             }
+
+            @Override
+            public void onclickSwich(View mView, boolean status) {
+
+            }
         });
 
         View view = inflater.inflate(R.layout.fragment_alarm, container, false);
         ListView listView = (ListView) view.findViewById(R.id.listAlarm);
         listView.setAdapter(adapter);
+
+
+        realm.addChangeListener(new RealmChangeListener<Realm>() {
+            @Override
+            public void onChange(Realm realm) {
+                Log.d(TAG, "onChange: " + realm);
+            }
+        });
         return view;
     }
 
-
-    private List<AlarmInfo> getListData() {
-        List<AlarmInfo> alarmInfoList = new ArrayList<>();
-        AlarmInfo a1 = new AlarmInfo("8:45", true);
-        AlarmInfo a2 = new AlarmInfo("12:40", false);
-        AlarmInfo a3 = new AlarmInfo("6:00", false);
-        alarmInfoList.add(a1);
-        alarmInfoList.add(a2);
-        alarmInfoList.add(a3);
-        return alarmInfoList;
-    }
-
-
-
-
-    private List<Long> getListAlarms() {
-        List<AlarmInfo> alarms = getListData();
-        long timeCount;
-        for (AlarmInfo alarm :
-                alarms) {
-            timeCount = convertTime(alarm.getTimeAlarm());
-            if (alarm.isStateAlarm() == true) {
-                listAlarms.add(timeCount);
-            }
-        }
-        return listAlarms;
-    }
 
     public long convertTime(String time) {
         Calendar cal = Calendar.getInstance();
@@ -134,5 +132,26 @@ public class AlarmFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         Log.d(TAG, "onDetach: ");
+    }
+
+
+    @Override
+    public void onCancel() {
+
+    }
+
+    @Override
+    public void onSaveSuccess(String time, int position, int state) {
+        if (state == OnSaveAlarmListener.STATE_EDIT) {
+
+            //adapter.notifyDataSetChanged();
+            AlarmInfo mAlarmInfo =DbUtil.updateAlarmTime(realm, time,mAlarmInfos.get(position).getId());
+            mAlarmInfos.set(position,mAlarmInfo);
+            adapter.notifyDataSetChanged();
+        }else{
+            AlarmInfo mAlarmInfo= DbUtil.addAlarmToDb(realm,time,true);
+            mAlarmInfos.add(mAlarmInfo);
+            adapter.notifyDataSetChanged();
+        }
     }
 }

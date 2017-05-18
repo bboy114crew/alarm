@@ -7,9 +7,15 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.thangnv.fu.common.DbUtil;
+import com.thangnv.fu.listener.OnSaveAlarmListener;
+
+import io.realm.Realm;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, ClockFragment.OnFragmentInteractionListener {
     private static final String TAG = "MainActivity";
@@ -24,17 +30,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ImageView btnAdd;
     private LinearLayout viewAlarm;
 
-    private int stateFragment=STATE_CLOCK;
+    private Fragment currentFragment;
+
+    private int stateFragment = STATE_CLOCK;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        addDataDefaultToDB();
+
         viewAlarm = (LinearLayout) findViewById(R.id.view_alarm);
         viewAlarm.setOnClickListener(this);
         tvTitle = (TextView) findViewById(R.id.tv_title);
         btnEdit = (TextView) findViewById(R.id.btn_edit);
         btnAdd = (ImageView) findViewById(R.id.btn_add);
+        btnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clickAddBySate(stateFragment);
+            }
+        });
         findViewById(R.id.view_watch).setOnClickListener(this);
         changeFragmentByState(stateFragment);
 
@@ -86,7 +103,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.view_alarm:
                 Log.d(TAG, "onClick: view_alarm");
-                stateFragment=STATE_ALARM;
+                stateFragment = STATE_ALARM;
                 changeFragmentByState(stateFragment);
                 break;
             case R.id.btn_edit:
@@ -102,21 +119,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mFragmentTransaction.commit();
     }
 
-    private void changeFragmentByState(int state){
-        switch (state){
+    private void changeFragmentByState(int state) {
+        switch (state) {
             case STATE_ALARM:
-                AlarmFragment alarmFragment = AlarmFragment.newInstance("","");
-                replaceFragment(alarmFragment, "ALARM_FRAGMENT");
+                currentFragment = AlarmFragment.newInstance("", "");
+                replaceFragment(currentFragment, "ALARM_FRAGMENT");
                 updateViewByState(state);
                 break;
             case STATE_CLOCK:
-                ClockFragment clockFragment = ClockFragment.newInstance("", "");
-                replaceFragment(clockFragment, "CLOCK_FRAGMENT");
+                currentFragment = ClockFragment.newInstance("", "");
+                replaceFragment(currentFragment, "CLOCK_FRAGMENT");
                 updateViewByState(state);
                 break;
         }
     }
-    private void updateViewByState(int state){
+
+    private void updateViewByState(int state) {
         switch (state) {
             case STATE_CLOCK:
                 tvTitle.setText("World Clock");
@@ -127,7 +145,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    private void clickEditByState(int state){
+    private void clickEditByState(int state) {
         switch (state) {
             case STATE_CLOCK:
 
@@ -136,6 +154,45 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 break;
         }
+    }
+
+    private void clickAddBySate(int state) {
+        switch (state) {
+            case STATE_CLOCK:
+
+                break;
+            case STATE_ALARM:
+
+                AlarmDialog alarmDialog = new AlarmDialog(this, new OnSaveAlarmListener() {
+                    @Override
+                    public void onCancel() {
+
+                    }
+
+                    @Override
+                    public void onSaveSuccess(String time, int position, int state) {
+                        if(currentFragment instanceof AlarmFragment){
+                            ((AlarmFragment)currentFragment).onSaveSuccess(time,position,state);
+                        }
+                    }
+                });
+                WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+                lp.copyFrom(alarmDialog.getWindow().getAttributes());
+                lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+                lp.height = WindowManager.LayoutParams.MATCH_PARENT;
+                alarmDialog.show();
+                alarmDialog.getWindow().setAttributes(lp);
+
+                break;
+        }
+    }
+
+    private void addDataDefaultToDB() {
+        Realm mRealm = Realm.getDefaultInstance();
+        DbUtil.addAlarmToDb(mRealm, "1:45", true);
+        DbUtil.addAlarmToDb(mRealm, "2:45", true);
+        DbUtil.addAlarmToDb(mRealm, "3:45", true);
+        DbUtil.addAlarmToDb(mRealm, "4:45", true);
     }
 
 }
