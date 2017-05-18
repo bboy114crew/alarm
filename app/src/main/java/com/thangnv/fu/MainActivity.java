@@ -12,10 +12,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.thangnv.fu.common.DbUtil;
 import com.thangnv.fu.listener.OnSaveAlarmListener;
-
-import io.realm.Realm;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, ClockFragment.OnFragmentInteractionListener {
     private static final String TAG = "MainActivity";
@@ -29,7 +26,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView btnEdit;
     private ImageView btnAdd;
     private LinearLayout viewAlarm;
-
+    private LinearLayout viewWatch;
+    private ImageView btnAlarm;
+    private ImageView btnClock;
     private Fragment currentFragment;
 
     private int stateFragment = STATE_CLOCK;
@@ -46,13 +45,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         tvTitle = (TextView) findViewById(R.id.tv_title);
         btnEdit = (TextView) findViewById(R.id.btn_edit);
         btnAdd = (ImageView) findViewById(R.id.btn_add);
+        viewWatch=(LinearLayout) findViewById(R.id.view_watch);
+        btnAlarm = (ImageView) findViewById(R.id.btn_alarm);
+        btnClock = (ImageView) findViewById(R.id.btn_clock);
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 clickAddBySate(stateFragment);
             }
         });
-        findViewById(R.id.view_watch).setOnClickListener(this);
+
+        viewWatch.setOnClickListener(this);
         changeFragmentByState(stateFragment);
 
 
@@ -138,9 +141,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (state) {
             case STATE_CLOCK:
                 tvTitle.setText("World Clock");
+                btnAlarm.setImageResource(R.drawable.ic_alarm_selector);
+                btnClock.setImageResource(R.drawable.ic_lens_selected);
                 break;
             case STATE_ALARM:
                 tvTitle.setText("Alarm");
+                btnAlarm.setImageResource(R.drawable.ic_alarm_selected);
+                btnClock.setImageResource(R.drawable.ic_lens_selector);
                 break;
         }
     }
@@ -182,17 +189,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 lp.height = WindowManager.LayoutParams.MATCH_PARENT;
                 alarmDialog.show();
                 alarmDialog.getWindow().setAttributes(lp);
-
                 break;
         }
     }
 
     private void addDataDefaultToDB() {
-        Realm mRealm = Realm.getDefaultInstance();
-        DbUtil.addAlarmToDb(mRealm, "1:45", true);
-        DbUtil.addAlarmToDb(mRealm, "2:45", true);
-        DbUtil.addAlarmToDb(mRealm, "3:45", true);
-        DbUtil.addAlarmToDb(mRealm, "4:45", true);
+//        Realm mRealm = Realm.getDefaultInstance();
+//        DbUtil.addAlarmToDb(mRealm, "1:45", true);
+//        DbUtil.addAlarmToDb(mRealm, "2:45", true);
+//        DbUtil.addAlarmToDb(mRealm, "3:45", true);
+//        DbUtil.addAlarmToDb(mRealm, "4:45", true);
     }
 
 }

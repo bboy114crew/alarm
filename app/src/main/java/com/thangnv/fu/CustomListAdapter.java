@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -65,12 +64,20 @@ public class CustomListAdapter extends BaseAdapter {
         viewHolder.timeAlarm.setText(alarmInfo.getTimeAlarm());
         viewHolder.content.setText("");
         viewHolder.stateAlarm.setChecked(alarmInfo.isStateAlarm());
-        viewHolder.stateAlarm.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        viewHolder.stateAlarm.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean status) {
-                listData.get(position).setStateAlarm(status);
+            public void onClick(View v) {
+//                if (viewHolder.stateAlarm.isChecked()) {
+//
+//                } else {
+//
+//                }
+//                if(mOnClickListener!=null){
+//                    mOnClickListener.onUpdateStatus(compoundButton,status,position);
+//                }
             }
         });
+
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

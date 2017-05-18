@@ -84,9 +84,12 @@ public class AlarmFragment extends Fragment implements OnSaveAlarmListener {
             }
 
             @Override
-            public void onclickSwich(View mView, boolean status) {
-
+            public void onUpdateStatus(View mView, boolean status, int position) {
+                AlarmInfo mAlarmInfo = DbUtil.updateAlarmStatus(realm, status, mAlarmInfos.get(position).getId());
+                mAlarmInfos.set(position, mAlarmInfo);
             }
+
+
         });
 
         View view = inflater.inflate(R.layout.fragment_alarm, container, false);
@@ -145,13 +148,25 @@ public class AlarmFragment extends Fragment implements OnSaveAlarmListener {
         if (state == OnSaveAlarmListener.STATE_EDIT) {
 
             //adapter.notifyDataSetChanged();
-            AlarmInfo mAlarmInfo =DbUtil.updateAlarmTime(realm, time,mAlarmInfos.get(position).getId());
-            mAlarmInfos.set(position,mAlarmInfo);
+            AlarmInfo mAlarmInfo = DbUtil.updateAlarmTime(realm, time, mAlarmInfos.get(position).getId());
+            mAlarmInfos.set(position, mAlarmInfo);
             adapter.notifyDataSetChanged();
-        }else{
-            AlarmInfo mAlarmInfo= DbUtil.addAlarmToDb(realm,time,true);
+        } else {
+            AlarmInfo mAlarmInfo =new AlarmInfo();
+            mAlarmInfo.setTimeAlarm(time);
+            mAlarmInfo.setStateAlarm(true);
+            long maxId = 1;
+            if(realm.isEmpty()){
+                Log.d(TAG, "onSaveSuccess: isEmpty");
+            }else{
+                Log.d(TAG, "onSaveSuccess: not Empty");
+                 maxId = (long) realm.where(AlarmInfo.class).max("id")+1;
+            }
+            mAlarmInfo.setId(maxId);
             mAlarmInfos.add(mAlarmInfo);
             adapter.notifyDataSetChanged();
+
+            DbUtil.addAlarmToDb(realm, time, true);
         }
     }
 }

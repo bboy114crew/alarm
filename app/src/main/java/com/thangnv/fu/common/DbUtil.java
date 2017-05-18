@@ -13,8 +13,7 @@ import io.realm.RealmResults;
  */
 
 public class DbUtil {
-    public static AlarmInfo addAlarmToDb(Realm mRealm, final String time, final boolean status) {
-        AlarmInfo mAlarmInfo = new AlarmInfo();
+    public static void addAlarmToDb(Realm mRealm, final String time, final boolean status) {
 
         mRealm.executeTransactionAsync(new Realm.Transaction() {
             @Override
@@ -27,7 +26,6 @@ public class DbUtil {
                 mAlarmInfo.setStateAlarm(status);
             }
         });
-        return mAlarmInfo;
     }
 
     public static List<AlarmInfo> getAllAlarm(Realm realm) {
@@ -37,11 +35,27 @@ public class DbUtil {
         return mAlarmInfos;
     }
 
-    public static AlarmInfo updateAlarmTime(Realm realm, String time, int id) {
+    public static AlarmInfo updateAlarmStatus(Realm realm, long id, boolean status) {
+        AlarmInfo alarmInfo = realm.where(AlarmInfo.class).equalTo("id", id).findFirst();
+        realm.beginTransaction();
+        alarmInfo.setStateAlarm(status);
+        realm.commitTransaction();
+        return alarmInfo;
+    }
+
+    public static AlarmInfo updateAlarmTime(Realm realm, String time, long id) {
 
         AlarmInfo alarmInfo = realm.where(AlarmInfo.class).equalTo("id", id).findFirst();
         realm.beginTransaction();
         alarmInfo.setTimeAlarm(time);
+        realm.commitTransaction();
+        return alarmInfo;
+    }
+    public static AlarmInfo updateAlarmStatus(Realm realm, boolean state, long id) {
+
+        AlarmInfo alarmInfo = realm.where(AlarmInfo.class).equalTo("id", id).findFirst();
+        realm.beginTransaction();
+        alarmInfo.setStateAlarm(state);
         realm.commitTransaction();
         return alarmInfo;
     }

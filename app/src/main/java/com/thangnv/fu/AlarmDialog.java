@@ -12,6 +12,8 @@ import android.widget.TimePicker;
 
 import com.thangnv.fu.listener.OnSaveAlarmListener;
 
+import java.util.Calendar;
+
 /**
  * Created by ll on 5/16/2017.
  */
@@ -59,6 +61,9 @@ public class AlarmDialog extends Dialog {
             state = OnSaveAlarmListener.STATE_EDIT;
             timePicker.setCurrentHour(newHour);
             timePicker.setCurrentMinute(newMinutes);
+        } else {
+            Calendar cal = Calendar.getInstance();
+            time = cal.get(Calendar.HOUR_OF_DAY) + ":" + cal.get(Calendar.MINUTE);
         }
         timePicker.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
             @Override

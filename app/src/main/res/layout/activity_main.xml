@@ -82,6 +82,7 @@
                 app:srcCompat="@drawable/ic_lens_selector" />
 
             <TextView
+                android:id="@+id/txt_clock"
                 style="@style/BottomTextStyle"
                 android:text="@string/world_clock" />
 
@@ -101,6 +102,7 @@
                 app:srcCompat="@drawable/ic_alarm_selector" />
 
             <TextView
+                android:id="@+id/txt_alarm"
                 style="@style/BottomTextStyle"
                 android:text="@string/alarm" />
 
@@ -115,11 +117,12 @@
             android:padding="10dp">
 
             <ImageView
-                android:id="@+id/btn_stopwatch"
+                android:id="@+id/btn_timer"
                 style="@style/BottomImageView"
                 app:srcCompat="@drawable/ic_timer_selector" />
 
             <TextView
+                android:id="@+id/txt_timer"
                 style="@style/BottomTextStyle"
                 android:text="@string/timer" />
         </LinearLayout>
@@ -133,11 +136,12 @@
             android:padding="10dp">
 
             <ImageView
-                android:id="@+id/btn_timer"
+                android:id="@+id/btn_stop_watch"
                 style="@style/BottomImageView"
                 app:srcCompat="@drawable/ic_watch_selector" />
 
             <TextView
+                android:id="@+id/txt_stop_watch"
                 style="@style/BottomTextStyle"
                 android:text="@string/stop_watch" />
         </LinearLayout>

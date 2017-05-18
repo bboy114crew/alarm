@@ -9,18 +9,18 @@ import io.realm.annotations.PrimaryKey;
 
 public class AlarmInfo  extends RealmObject {
     @PrimaryKey
-    private int id;
+    private long id;
     private String timeAlarm;
     private boolean stateAlarm;
 
     public AlarmInfo() {
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 

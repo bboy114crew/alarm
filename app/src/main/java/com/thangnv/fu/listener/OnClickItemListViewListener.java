@@ -9,5 +9,5 @@ import android.view.View;
 public interface OnClickItemListViewListener {
 
     void OnClickItem(View mView, int position);
-    void onclickSwich(View mView, boolean status);
+    void onUpdateStatus(View mView, boolean status,int position);
 }
