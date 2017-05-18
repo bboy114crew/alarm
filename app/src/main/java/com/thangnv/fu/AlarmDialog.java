@@ -65,5 +65,11 @@ public class AlarmDialog extends Dialog {
                 }
             }
         });
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlarmDialog.this.dismiss();
+            }
+        });
     }
 }

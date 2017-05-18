@@ -10,7 +10,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import com.thangnv.fu.listener.OnClickItemListViewListener;
-import com.thangnv.fu.model.Alarms;
+import com.thangnv.fu.model.AlarmInfo;
 
 import java.util.List;
 
@@ -19,12 +19,12 @@ import java.util.List;
  */
 
 public class CustomListAdapter extends BaseAdapter {
-    private List<Alarms> listData;
+    private List<AlarmInfo> listData;
     private LayoutInflater layoutInflater;
     private Context context;
     private OnClickItemListViewListener mOnClickListener;
 
-    public CustomListAdapter(Context context, List<Alarms> listData, OnClickItemListViewListener mOnClickListener) {
+    public CustomListAdapter(Context context, List<AlarmInfo> listData, OnClickItemListViewListener mOnClickListener) {
         this.listData = listData;
         this.context = context;
         layoutInflater = LayoutInflater.from(context);
@@ -61,10 +61,10 @@ public class CustomListAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) view.getTag();
         }
 
-        Alarms alarms = this.listData.get(position);
-        viewHolder.timeAlarm.setText(alarms.getTimeAlarm());
+        AlarmInfo alarmInfo = this.listData.get(position);
+        viewHolder.timeAlarm.setText(alarmInfo.getTimeAlarm());
         viewHolder.content.setText("");
-        viewHolder.stateAlarm.setChecked(alarms.isStateAlarm());
+        viewHolder.stateAlarm.setChecked(alarmInfo.isStateAlarm());
         viewHolder.stateAlarm.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean status) {

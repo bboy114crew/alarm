@@ -10,7 +10,7 @@ import android.view.WindowManager;
 import android.widget.ListView;
 
 import com.thangnv.fu.listener.OnClickItemListViewListener;
-import com.thangnv.fu.model.Alarms;
+import com.thangnv.fu.model.AlarmInfo;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -22,7 +22,8 @@ public class AlarmFragment extends Fragment {
     private static final String TAG = "AlarmFragment";
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
+    private static final String PREFS_TAG = "SharedPrefs";
+    private static final String ALARMS_TAG = "MyAlarm";
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -30,7 +31,7 @@ public class AlarmFragment extends Fragment {
     private CustomListAdapter adapter;
     private List<Long> listAlarms;
 
-    private List<Alarms> mListAlarmses;
+    private List<AlarmInfo> mListAlarmses;
 
     public AlarmFragment() {
     }
@@ -57,12 +58,11 @@ public class AlarmFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         mListAlarmses = getListData();
         adapter = new CustomListAdapter(getActivity(), mListAlarmses, new OnClickItemListViewListener() {
             @Override
             public void OnClickItem(View mView, int position) {
-                AlarmDialog alarmDialog = new AlarmDialog(getActivity(), mListAlarmses.get(position).getTimeAlarm(),position);
+                AlarmDialog alarmDialog = new AlarmDialog(getActivity(), mListAlarmses.get(position).getTimeAlarm(), position);
                 WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
                 lp.copyFrom(alarmDialog.getWindow().getAttributes());
                 lp.width = WindowManager.LayoutParams.MATCH_PARENT;
@@ -71,6 +71,7 @@ public class AlarmFragment extends Fragment {
                 alarmDialog.getWindow().setAttributes(lp);
             }
         });
+
         View view = inflater.inflate(R.layout.fragment_alarm, container, false);
         ListView listView = (ListView) view.findViewById(R.id.listAlarm);
         listView.setAdapter(adapter);
@@ -78,21 +79,24 @@ public class AlarmFragment extends Fragment {
     }
 
 
-    private List<Alarms> getListData() {
-        List<Alarms> alarmsList = new ArrayList<>();
-        Alarms a1 = new Alarms("8:45", true);
-        Alarms a2 = new Alarms("12:40", false);
-        Alarms a3 = new Alarms("6:00", false);
-        alarmsList.add(a1);
-        alarmsList.add(a2);
-        alarmsList.add(a3);
-        return alarmsList;
+    private List<AlarmInfo> getListData() {
+        List<AlarmInfo> alarmInfoList = new ArrayList<>();
+        AlarmInfo a1 = new AlarmInfo("8:45", true);
+        AlarmInfo a2 = new AlarmInfo("12:40", false);
+        AlarmInfo a3 = new AlarmInfo("6:00", false);
+        alarmInfoList.add(a1);
+        alarmInfoList.add(a2);
+        alarmInfoList.add(a3);
+        return alarmInfoList;
     }
 
+
+
+
     private List<Long> getListAlarms() {
-        List<Alarms> alarms = getListData();
+        List<AlarmInfo> alarms = getListData();
         long timeCount;
-        for (Alarms alarm :
+        for (AlarmInfo alarm :
                 alarms) {
             timeCount = convertTime(alarm.getTimeAlarm());
             if (alarm.isStateAlarm() == true) {
