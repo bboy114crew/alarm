@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -23,6 +24,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static final int STATE_TIMER = 4;
 
     private TextView tvTitle;
+    private TextView txtAlarm;
+    private TextView txtClock;
+
     private TextView btnEdit;
     private ImageView btnAdd;
     private LinearLayout viewAlarm;
@@ -46,6 +50,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         viewWatch = (LinearLayout) findViewById(R.id.view_watch);
         btnAlarm = (ImageView) findViewById(R.id.btn_alarm);
         btnClock = (ImageView) findViewById(R.id.btn_clock);
+        txtClock = (TextView) findViewById(R.id.txt_clock);
+        txtAlarm = (TextView) findViewById(R.id.txt_alarm);
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -141,11 +147,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 tvTitle.setText("World Clock");
                 btnAlarm.setImageResource(R.drawable.ic_alarm_selector);
                 btnClock.setImageResource(R.drawable.ic_lens_selected);
+                txtClock.setTextColor(ContextCompat.getColor(this, R.color.selected_color));
+                txtAlarm.setTextColor(ContextCompat.getColor(this, R.color.tab_text_selector));
                 break;
             case STATE_ALARM:
                 tvTitle.setText("Alarm");
                 btnAlarm.setImageResource(R.drawable.ic_alarm_selected);
                 btnClock.setImageResource(R.drawable.ic_lens_selector);
+                txtClock.setTextColor(ContextCompat.getColor(this, R.color.tab_text_selector));
+                txtAlarm.setTextColor(ContextCompat.getColor(this, R.color.selected_color));
                 break;
         }
     }

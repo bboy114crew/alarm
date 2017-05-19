@@ -57,7 +57,7 @@ public class CustomListAdapter extends BaseAdapter {
             view = layoutInflater.inflate(R.layout.list_alarm_layout, null);
             viewHolder = new ViewHolder();
             viewHolder.timeAlarm = (TextView) view.findViewById(R.id.tv_TimeAlarm);
-            viewHolder.content = (TextView) view.findViewById(R.id.tv_Content);
+            viewHolder.tvState = (TextView) view.findViewById(R.id.tv_State);
             viewHolder.stateAlarm = (Switch) view.findViewById(R.id.sw_state);
             viewHolder.itemView = view.findViewById(R.id.layout_item_alarm);
             view.setTag(viewHolder);
@@ -67,12 +67,13 @@ public class CustomListAdapter extends BaseAdapter {
         Log.d(TAG, "getView: " + position);
         AlarmInfo alarmInfo = this.listData.get(position);
         viewHolder.timeAlarm.setText(alarmInfo.getTimeAlarm());
+
         String[] parts = alarmInfo.getTimeAlarm().split(":");
         int newHour = Integer.parseInt(parts[0]);
         if (newHour > 12){
-            viewHolder.content.setText("PM");
+            viewHolder.tvState.setText("PM");
         } else {
-            viewHolder.content.setText("AM");
+            viewHolder.tvState.setText("AM");
         }
 
         viewHolder.stateAlarm.setChecked(alarmInfo.isStateAlarm());
@@ -114,7 +115,7 @@ public class CustomListAdapter extends BaseAdapter {
     private class ViewHolder {
         private View itemView;
         public TextView timeAlarm;
-        public TextView content;
+        public TextView tvState;
         public Switch stateAlarm;
     }
 }

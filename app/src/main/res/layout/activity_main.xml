@@ -84,7 +84,8 @@
             <TextView
                 android:id="@+id/txt_clock"
                 style="@style/BottomTextStyle"
-                android:text="@string/world_clock" />
+                android:text="@string/world_clock"
+                android:textColor="@color/tab_text_selector"/>
 
         </LinearLayout>
 
@@ -104,7 +105,8 @@
             <TextView
                 android:id="@+id/txt_alarm"
                 style="@style/BottomTextStyle"
-                android:text="@string/alarm" />
+                android:text="@string/alarm"
+                android:textColor="@color/tab_text_selector"/>
 
         </LinearLayout>
 
@@ -125,7 +127,7 @@
                 android:id="@+id/txt_timer"
                 style="@style/BottomTextStyle"
                 android:text="@string/timer"
-                android:textColor=""/>
+                android:textColor="@color/tab_text_selector"/>
         </LinearLayout>
 
         <LinearLayout
@@ -144,7 +146,8 @@
             <TextView
                 android:id="@+id/txt_stop_watch"
                 style="@style/BottomTextStyle"
-                android:text="@string/stop_watch" />
+                android:text="@string/stop_watch"
+                android:textColor="@color/tab_text_selector"/>
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>
