@@ -9,5 +9,5 @@ import android.view.View;
 public interface OnClickItemListViewListener {
 
     void OnClickItem(View mView, int position);
-    void onUpdateStatus(View mView, boolean status,int position);
+    void onUpdateStatus(View mView, boolean status,long id, int position);
 }

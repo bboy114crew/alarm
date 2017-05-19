@@ -18,7 +18,6 @@ public class DbUtil {
         mRealm.executeTransactionAsync(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-                // Get the current max id in the users table
                 Number maxId = realm.where(AlarmInfo.class).max("id");
                 int nextId = (maxId == null) ? 1 : maxId.intValue() + 1;
                 AlarmInfo mAlarmInfo = realm.createObject(AlarmInfo.class, nextId);
@@ -28,6 +27,7 @@ public class DbUtil {
         });
     }
 
+
     public static List<AlarmInfo> getAllAlarm(Realm realm) {
         List<AlarmInfo> mAlarmInfos = new RealmList<>();
         RealmResults<AlarmInfo> realmResults = realm.where(AlarmInfo.class).findAll();
@@ -35,13 +35,7 @@ public class DbUtil {
         return mAlarmInfos;
     }
 
-    public static AlarmInfo updateAlarmStatus(Realm realm, long id, boolean status) {
-        AlarmInfo alarmInfo = realm.where(AlarmInfo.class).equalTo("id", id).findFirst();
-        realm.beginTransaction();
-        alarmInfo.setStateAlarm(status);
-        realm.commitTransaction();
-        return alarmInfo;
-    }
+
 
     public static AlarmInfo updateAlarmTime(Realm realm, String time, long id) {
 
@@ -51,6 +45,8 @@ public class DbUtil {
         realm.commitTransaction();
         return alarmInfo;
     }
+
+
     public static AlarmInfo updateAlarmStatus(Realm realm, boolean state, long id) {
 
         AlarmInfo alarmInfo = realm.where(AlarmInfo.class).equalTo("id", id).findFirst();
@@ -59,4 +55,6 @@ public class DbUtil {
         realm.commitTransaction();
         return alarmInfo;
     }
+
+
 }

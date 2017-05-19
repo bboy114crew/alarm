@@ -37,15 +37,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        addDataDefaultToDB();
-
+//        addDataDefaultToDB();
         viewAlarm = (LinearLayout) findViewById(R.id.view_alarm);
         viewAlarm.setOnClickListener(this);
         tvTitle = (TextView) findViewById(R.id.tv_title);
         btnEdit = (TextView) findViewById(R.id.btn_edit);
         btnAdd = (ImageView) findViewById(R.id.btn_add);
-        viewWatch=(LinearLayout) findViewById(R.id.view_watch);
+        viewWatch = (LinearLayout) findViewById(R.id.view_watch);
         btnAlarm = (ImageView) findViewById(R.id.btn_alarm);
         btnClock = (ImageView) findViewById(R.id.btn_clock);
         btnAdd.setOnClickListener(new View.OnClickListener() {
@@ -178,8 +176,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                     @Override
                     public void onSaveSuccess(String time, int position, int state) {
-                        if(currentFragment instanceof AlarmFragment){
-                            ((AlarmFragment)currentFragment).onSaveSuccess(time,position,state);
+                        if (currentFragment instanceof AlarmFragment) {
+                            ((AlarmFragment) currentFragment).onSaveSuccess(time, position, state);
                         }
                     }
                 });
@@ -193,12 +191,49 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    private void addDataDefaultToDB() {
+//    private void addDataDefaultToDB() {
 //        Realm mRealm = Realm.getDefaultInstance();
-//        DbUtil.addAlarmToDb(mRealm, "1:45", true);
-//        DbUtil.addAlarmToDb(mRealm, "2:45", true);
-//        DbUtil.addAlarmToDb(mRealm, "3:45", true);
-//        DbUtil.addAlarmToDb(mRealm, "4:45", true);
-    }
+//        DbUtil.addAlarmToDb(mRealm, "1:1", true);
+//        DbUtil.addAlarmToDb(mRealm, "1:2", true);
+//        DbUtil.addAlarmToDb(mRealm, "1:3", true);
+//        DbUtil.addAlarmToDb(mRealm, "1:4", true);
+//        DbUtil.addAlarmToDb(mRealm, "1:5", true);
+//        DbUtil.addAlarmToDb(mRealm, "1:6", true);
+//        DbUtil.addAlarmToDb(mRealm, "1:7", true);
+//        DbUtil.addAlarmToDb(mRealm, "1:8", true);
+//        DbUtil.addAlarmToDb(mRealm, "1:9", true);
+//        DbUtil.addAlarmToDb(mRealm, "1:10", true);
+//        DbUtil.addAlarmToDb(mRealm, "1:11", true);
+//        DbUtil.addAlarmToDb(mRealm, "1:12", true);
+//        DbUtil.addAlarmToDb(mRealm, "1:13", true);
+//        DbUtil.addAlarmToDb(mRealm, "1:14", true);
+//        DbUtil.addAlarmToDb(mRealm, "1:15", true);
+//        DbUtil.addAlarmToDb(mRealm, "1:16", true);
+//        DbUtil.addAlarmToDb(mRealm, "1:17", true);
+//        DbUtil.addAlarmToDb(mRealm, "1:18", true);
+//        DbUtil.addAlarmToDb(mRealm, "1:19", true);
+//        DbUtil.addAlarmToDb(mRealm, "1:20", true);
+//        DbUtil.addAlarmToDb(mRealm, "1:21", true);
+//        DbUtil.addAlarmToDb(mRealm, "1:22", true);
+//        DbUtil.addAlarmToDb(mRealm, "1:23", true);
+//        DbUtil.addAlarmToDb(mRealm, "1:24", true);
+//        DbUtil.addAlarmToDb(mRealm, "1:25", true);
+//        DbUtil.addAlarmToDb(mRealm, "1:26", true);
+//        DbUtil.addAlarmToDb(mRealm, "1:27", true);
+//        DbUtil.addAlarmToDb(mRealm, "1:28", true);
+//        DbUtil.addAlarmToDb(mRealm, "1:29", true);
+//        DbUtil.addAlarmToDb(mRealm, "1:30", true);
+//        DbUtil.addAlarmToDb(mRealm, "1:31", true);
+//        DbUtil.addAlarmToDb(mRealm, "1:32", true);
+//        DbUtil.addAlarmToDb(mRealm, "1:33", true);
+//        DbUtil.addAlarmToDb(mRealm, "1:34", true);
+//        DbUtil.addAlarmToDb(mRealm, "1:35", true);
+//        DbUtil.addAlarmToDb(mRealm, "1:36", true);
+//        DbUtil.addAlarmToDb(mRealm, "1:37", true);
+//        DbUtil.addAlarmToDb(mRealm, "1:38", true);
+//
+//
+//    }
+
 
 }

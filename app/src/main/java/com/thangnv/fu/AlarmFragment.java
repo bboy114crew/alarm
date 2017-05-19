@@ -1,6 +1,11 @@
 package com.thangnv.fu;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,11 +21,14 @@ import com.thangnv.fu.listener.OnClickItemListViewListener;
 import com.thangnv.fu.listener.OnSaveAlarmListener;
 import com.thangnv.fu.model.AlarmInfo;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
 import io.realm.Realm;
 import io.realm.RealmChangeListener;
+
+import static android.content.Context.ALARM_SERVICE;
 
 
 public class AlarmFragment extends Fragment implements OnSaveAlarmListener {
@@ -84,10 +92,15 @@ public class AlarmFragment extends Fragment implements OnSaveAlarmListener {
             }
 
             @Override
-            public void onUpdateStatus(View mView, boolean status, int position) {
-                AlarmInfo mAlarmInfo = DbUtil.updateAlarmStatus(realm, status, mAlarmInfos.get(position).getId());
+            public void onUpdateStatus(View mView, boolean status, long id, int position) {
+                AlarmInfo mAlarmInfo = DbUtil.updateAlarmStatus(realm, status, id);
                 mAlarmInfos.set(position, mAlarmInfo);
+                adapter.notifyDataSetChanged();
+                if(status == false){
+
+                }
             }
+
 
 
         });
@@ -116,6 +129,23 @@ public class AlarmFragment extends Fragment implements OnSaveAlarmListener {
         cal.set(Calendar.MINUTE, newMinutes);
         long difference = cal.getTimeInMillis() - Calendar.getInstance().getTimeInMillis();
         return difference;
+    }
+
+    public void ringAlarm(Context context, int[] a){
+        AlarmManager mgrAlarm = (AlarmManager) context.getSystemService(ALARM_SERVICE);
+        ArrayList<PendingIntent> intentArray = new ArrayList<>();
+
+        for(int i = 0; i < a.length; ++i)
+        {
+            Intent intent = new Intent(context, AlarmReceiver.class);
+
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(context, a[i], intent, 0);
+
+            mgrAlarm.set(AlarmManager.RTC_WAKEUP,
+                    SystemClock.elapsedRealtime() + a[i],
+                    pendingIntent);
+            intentArray.add(pendingIntent);
+        }
     }
 
 
@@ -165,8 +195,12 @@ public class AlarmFragment extends Fragment implements OnSaveAlarmListener {
             mAlarmInfo.setId(maxId);
             mAlarmInfos.add(mAlarmInfo);
             adapter.notifyDataSetChanged();
-
             DbUtil.addAlarmToDb(realm, time, true);
         }
     }
+
+
+
+
+
 }

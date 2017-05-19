@@ -5,11 +5,13 @@ import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import com.thangnv.fu.common.CustomInterface;
 import com.thangnv.fu.listener.OnSaveAlarmListener;
 
 import java.util.Calendar;
@@ -59,18 +61,29 @@ public class AlarmDialog extends Dialog {
             int newHour = Integer.parseInt(parts[0]);
             int newMinutes = Integer.parseInt(parts[1]);
             state = OnSaveAlarmListener.STATE_EDIT;
-            timePicker.setCurrentHour(newHour);
-            timePicker.setCurrentMinute(newMinutes);
+            timePicker.setIs24HourView(true);
+            int currentApiVersion = android.os.Build.VERSION.SDK_INT;
+            if (currentApiVersion > android.os.Build.VERSION_CODES.LOLLIPOP_MR1) {
+                timePicker.setHour(newHour);
+                timePicker.setMinute(newMinutes);
+            } else {
+                timePicker.setCurrentHour(newHour);
+                timePicker.setCurrentMinute(newMinutes);
+            }
+
         } else {
             Calendar cal = Calendar.getInstance();
             time = cal.get(Calendar.HOUR_OF_DAY) + ":" + cal.get(Calendar.MINUTE);
+            time = CustomInterface.setTimeAlarm(cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE));
         }
         timePicker.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
             @Override
             public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
-                time = hourOfDay + ":" + minute;
+                Log.d(TAG, "onTimeChanged: " + hourOfDay + ":" + minute);
+                time = CustomInterface.setTimeAlarm(hourOfDay, minute);
             }
         });
+
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -79,6 +92,7 @@ public class AlarmDialog extends Dialog {
                 dismiss();
             }
         });
+
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
