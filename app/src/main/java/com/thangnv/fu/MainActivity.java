@@ -14,6 +14,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.thangnv.fu.listener.OnSaveAlarmListener;
+import com.thangnv.fu.view.AlarmFragment;
+import com.thangnv.fu.view.ClockFragment;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, ClockFragment.OnFragmentInteractionListener {
     private static final String TAG = "MainActivity";

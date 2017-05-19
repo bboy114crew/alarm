@@ -1,4 +1,4 @@
-package com.thangnv.fu;
+package com.thangnv.fu.view;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -16,6 +16,10 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.thangnv.fu.AlarmDialog;
+import com.thangnv.fu.AlarmReceiver;
+import com.thangnv.fu.CustomListAdapter;
+import com.thangnv.fu.R;
 import com.thangnv.fu.common.DbUtil;
 import com.thangnv.fu.listener.OnClickItemListViewListener;
 import com.thangnv.fu.listener.OnSaveAlarmListener;
