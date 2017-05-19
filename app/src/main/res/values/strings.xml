@@ -8,4 +8,6 @@
     <string name="alarm">Alarm</string>
     <string name="stop_watch">Stop watch</string>
     <string name="world_clock">World clock</string>
+    <string name="edit_button">Remove</string>
+    <string name="add_button">Add</string>
 </resources>
