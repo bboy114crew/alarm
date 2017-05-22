@@ -1,30 +1,18 @@
-package com.thangnv.fu.view;
+package com.thangnv.fu.view.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.thangnv.fu.R;
+import com.thangnv.fu.base.BaseFragment;
 
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link ClockFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link ClockFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class ClockFragment extends Fragment {
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+public class ClockFragment extends BaseFragment {
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+
 
     private OnFragmentInteractionListener mListener;
 
@@ -32,12 +20,8 @@ public class ClockFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static ClockFragment newInstance(String param1, String param2) {
+    public static ClockFragment newInstance() {
         ClockFragment fragment = new ClockFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
         return fragment;
     }
 
@@ -45,8 +29,7 @@ public class ClockFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+
         }
     }
 

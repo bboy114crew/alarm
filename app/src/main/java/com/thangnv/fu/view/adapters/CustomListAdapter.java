@@ -1,4 +1,4 @@
-package com.thangnv.fu;
+package com.thangnv.fu.view.adapters;
 
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
@@ -10,6 +10,7 @@ import android.widget.BaseAdapter;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import com.thangnv.fu.R;
 import com.thangnv.fu.listener.OnClickItemListViewListener;
 import com.thangnv.fu.model.AlarmInfo;
 

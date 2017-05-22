@@ -1,11 +1,10 @@
-package com.thangnv.fu;
+package com.thangnv.fu.view.activitys;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -13,11 +12,14 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.thangnv.fu.R;
+import com.thangnv.fu.base.BaseActivity;
 import com.thangnv.fu.listener.OnSaveAlarmListener;
-import com.thangnv.fu.view.AlarmFragment;
-import com.thangnv.fu.view.ClockFragment;
+import com.thangnv.fu.view.dialogs.AlarmDialog;
+import com.thangnv.fu.view.fragments.AlarmFragment;
+import com.thangnv.fu.view.fragments.ClockFragment;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener, ClockFragment.OnFragmentInteractionListener {
+public class MainActivity extends BaseActivity implements View.OnClickListener, ClockFragment.OnFragmentInteractionListener {
     private static final String TAG = "MainActivity";
 
     private static final int STATE_ALARM = 1;
@@ -43,29 +45,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//        addDataDefaultToDB();
-        viewAlarm = (LinearLayout) findViewById(R.id.view_alarm);
+        initViews();
         viewAlarm.setOnClickListener(this);
-        tvTitle = (TextView) findViewById(R.id.tv_title);
-        btnEdit = (TextView) findViewById(R.id.btn_edit);
-        btnAdd = (ImageView) findViewById(R.id.btn_add);
-        viewWatch = (LinearLayout) findViewById(R.id.view_watch);
-        btnAlarm = (ImageView) findViewById(R.id.btn_alarm);
-        btnClock = (ImageView) findViewById(R.id.btn_clock);
-        txtClock = (TextView) findViewById(R.id.txt_clock);
-        txtAlarm = (TextView) findViewById(R.id.txt_alarm);
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 clickAddBySate(stateFragment);
             }
         });
-
         viewWatch.setOnClickListener(this);
         changeFragmentByState(stateFragment);
-
-
     }
+
 
     @Override
     protected void onStart() {
@@ -120,7 +111,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         }
     }
-
+    private void initViews(){
+        viewAlarm = (LinearLayout) findViewById(R.id.view_alarm);
+        tvTitle = (TextView) findViewById(R.id.tv_title);
+        btnEdit = (TextView) findViewById(R.id.btn_edit);
+        btnAdd = (ImageView) findViewById(R.id.btn_add);
+        viewWatch = (LinearLayout) findViewById(R.id.view_watch);
+        btnAlarm = (ImageView) findViewById(R.id.btn_alarm);
+        btnClock = (ImageView) findViewById(R.id.btn_clock);
+        txtClock = (TextView) findViewById(R.id.txt_clock);
+        txtAlarm = (TextView) findViewById(R.id.txt_alarm);
+    }
     private void replaceFragment(Fragment mFragment, String tag) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction mFragmentTransaction = fragmentManager.beginTransaction();
@@ -131,12 +132,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void changeFragmentByState(int state) {
         switch (state) {
             case STATE_ALARM:
-                currentFragment = AlarmFragment.newInstance("", "");
+                currentFragment = AlarmFragment.newInstance();
                 replaceFragment(currentFragment, "ALARM_FRAGMENT");
                 updateViewByState(state);
                 break;
             case STATE_CLOCK:
-                currentFragment = ClockFragment.newInstance("", "");
+                currentFragment = ClockFragment.newInstance();
                 replaceFragment(currentFragment, "CLOCK_FRAGMENT");
                 updateViewByState(state);
                 break;
@@ -202,50 +203,4 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
         }
     }
-
-//    private void addDataDefaultToDB() {
-//        Realm mRealm = Realm.getDefaultInstance();
-//        DbUtil.addAlarmToDb(mRealm, "1:1", true);
-//        DbUtil.addAlarmToDb(mRealm, "1:2", true);
-//        DbUtil.addAlarmToDb(mRealm, "1:3", true);
-//        DbUtil.addAlarmToDb(mRealm, "1:4", true);
-//        DbUtil.addAlarmToDb(mRealm, "1:5", true);
-//        DbUtil.addAlarmToDb(mRealm, "1:6", true);
-//        DbUtil.addAlarmToDb(mRealm, "1:7", true);
-//        DbUtil.addAlarmToDb(mRealm, "1:8", true);
-//        DbUtil.addAlarmToDb(mRealm, "1:9", true);
-//        DbUtil.addAlarmToDb(mRealm, "1:10", true);
-//        DbUtil.addAlarmToDb(mRealm, "1:11", true);
-//        DbUtil.addAlarmToDb(mRealm, "1:12", true);
-//        DbUtil.addAlarmToDb(mRealm, "1:13", true);
-//        DbUtil.addAlarmToDb(mRealm, "1:14", true);
-//        DbUtil.addAlarmToDb(mRealm, "1:15", true);
-//        DbUtil.addAlarmToDb(mRealm, "1:16", true);
-//        DbUtil.addAlarmToDb(mRealm, "1:17", true);
-//        DbUtil.addAlarmToDb(mRealm, "1:18", true);
-//        DbUtil.addAlarmToDb(mRealm, "1:19", true);
-//        DbUtil.addAlarmToDb(mRealm, "1:20", true);
-//        DbUtil.addAlarmToDb(mRealm, "1:21", true);
-//        DbUtil.addAlarmToDb(mRealm, "1:22", true);
-//        DbUtil.addAlarmToDb(mRealm, "1:23", true);
-//        DbUtil.addAlarmToDb(mRealm, "1:24", true);
-//        DbUtil.addAlarmToDb(mRealm, "1:25", true);
-//        DbUtil.addAlarmToDb(mRealm, "1:26", true);
-//        DbUtil.addAlarmToDb(mRealm, "1:27", true);
-//        DbUtil.addAlarmToDb(mRealm, "1:28", true);
-//        DbUtil.addAlarmToDb(mRealm, "1:29", true);
-//        DbUtil.addAlarmToDb(mRealm, "1:30", true);
-//        DbUtil.addAlarmToDb(mRealm, "1:31", true);
-//        DbUtil.addAlarmToDb(mRealm, "1:32", true);
-//        DbUtil.addAlarmToDb(mRealm, "1:33", true);
-//        DbUtil.addAlarmToDb(mRealm, "1:34", true);
-//        DbUtil.addAlarmToDb(mRealm, "1:35", true);
-//        DbUtil.addAlarmToDb(mRealm, "1:36", true);
-//        DbUtil.addAlarmToDb(mRealm, "1:37", true);
-//        DbUtil.addAlarmToDb(mRealm, "1:38", true);
-//
-//
-//    }
-
-
 }

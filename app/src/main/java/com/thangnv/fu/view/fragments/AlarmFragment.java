@@ -1,4 +1,4 @@
-package com.thangnv.fu.view;
+package com.thangnv.fu.view.fragments;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -6,21 +6,19 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.SystemClock;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 
-import com.thangnv.fu.AlarmDialog;
 import com.thangnv.fu.AlarmReceiver;
-import com.thangnv.fu.CustomListAdapter;
+import com.thangnv.fu.view.dialogs.AlarmDialog;
+import com.thangnv.fu.view.adapters.CustomListAdapter;
 import com.thangnv.fu.R;
-import com.thangnv.fu.common.DbUtil;
+import com.thangnv.fu.base.BaseFragment;
+import com.thangnv.fu.utils.DbUtil;
 import com.thangnv.fu.listener.OnClickItemListViewListener;
 import com.thangnv.fu.listener.OnSaveAlarmListener;
 import com.thangnv.fu.model.AlarmInfo;
@@ -35,47 +33,35 @@ import io.realm.RealmChangeListener;
 import static android.content.Context.ALARM_SERVICE;
 
 
-public class AlarmFragment extends Fragment implements OnSaveAlarmListener {
+public class AlarmFragment extends BaseFragment implements OnSaveAlarmListener {
 
     private static final String TAG = "AlarmFragment";
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
     private static final String PREFS_TAG = "SharedPrefs";
     private static final String ALARMS_TAG = "MyAlarm";
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+
 
     private CustomListAdapter adapter;
-    private List<Long> listAlarms;
+    //private List<Long> listAlarms;
     private Realm realm;
     private List<AlarmInfo> mAlarmInfos;
-    private ImageView addAlarm;
-    private TextView deleteAlarm;
+    //private ImageView addAlarm;
+    //private TextView deleteAlarm;
 
 
     public AlarmFragment() {
     }
 
-    public static AlarmFragment newInstance(String param1, String param2) {
+    public static AlarmFragment newInstance() {
         AlarmFragment fragment = new AlarmFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
 
         realm = Realm.getDefaultInstance();
-        mAlarmInfos = DbUtil.getAllAlarm(realm);
+        mAlarmInfos = DbUtil.getInstance().getAllAlarm(realm);
 
     }
 
@@ -97,7 +83,7 @@ public class AlarmFragment extends Fragment implements OnSaveAlarmListener {
 
             @Override
             public void onUpdateStatus(View mView, boolean status, long id, int position) {
-                AlarmInfo mAlarmInfo = DbUtil.updateAlarmStatus(realm, status, id);
+                AlarmInfo mAlarmInfo = DbUtil.getInstance().updateAlarmStatus(realm, status, id);
                 mAlarmInfos.set(position, mAlarmInfo);
                 adapter.notifyDataSetChanged();
                 if(status == false){
@@ -124,33 +110,7 @@ public class AlarmFragment extends Fragment implements OnSaveAlarmListener {
     }
 
 
-    public long convertTime(String time) {
-        Calendar cal = Calendar.getInstance();
-        String[] parts = time.split(":");
-        int newHour = Integer.parseInt(parts[0]);
-        int newMinutes = Integer.parseInt(parts[1]);
-        cal.set(Calendar.HOUR, newHour);
-        cal.set(Calendar.MINUTE, newMinutes);
-        long difference = cal.getTimeInMillis() - Calendar.getInstance().getTimeInMillis();
-        return difference;
-    }
 
-    public void ringAlarm(Context context, int[] a){
-        AlarmManager mgrAlarm = (AlarmManager) context.getSystemService(ALARM_SERVICE);
-        ArrayList<PendingIntent> intentArray = new ArrayList<>();
-
-        for(int i = 0; i < a.length; ++i)
-        {
-            Intent intent = new Intent(context, AlarmReceiver.class);
-
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(context, a[i], intent, 0);
-
-            mgrAlarm.set(AlarmManager.RTC_WAKEUP,
-                    SystemClock.elapsedRealtime() + a[i],
-                    pendingIntent);
-            intentArray.add(pendingIntent);
-        }
-    }
 
 
     @Override
@@ -180,9 +140,7 @@ public class AlarmFragment extends Fragment implements OnSaveAlarmListener {
     @Override
     public void onSaveSuccess(String time, int position, int state) {
         if (state == OnSaveAlarmListener.STATE_EDIT) {
-
-            //adapter.notifyDataSetChanged();
-            AlarmInfo mAlarmInfo = DbUtil.updateAlarmTime(realm, time, mAlarmInfos.get(position).getId());
+            AlarmInfo mAlarmInfo = DbUtil.getInstance().updateAlarmTime(realm, time, mAlarmInfos.get(position).getId());
             mAlarmInfos.set(position, mAlarmInfo);
             adapter.notifyDataSetChanged();
         } else {
@@ -199,7 +157,7 @@ public class AlarmFragment extends Fragment implements OnSaveAlarmListener {
             mAlarmInfo.setId(maxId);
             mAlarmInfos.add(mAlarmInfo);
             adapter.notifyDataSetChanged();
-            DbUtil.addAlarmToDb(realm, time, true);
+            DbUtil.getInstance().addAlarmToDb(realm, time, true);
         }
     }
 

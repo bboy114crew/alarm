@@ -1,4 +1,4 @@
-package com.thangnv.fu;
+package com.thangnv.fu.view.dialogs;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -11,8 +11,9 @@ import android.view.Window;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
-import com.thangnv.fu.common.CustomInterface;
+import com.thangnv.fu.R;
 import com.thangnv.fu.listener.OnSaveAlarmListener;
+import com.thangnv.fu.utils.Util;
 
 import java.util.Calendar;
 
@@ -74,13 +75,13 @@ public class AlarmDialog extends Dialog {
         } else {
             Calendar cal = Calendar.getInstance();
             time = cal.get(Calendar.HOUR_OF_DAY) + ":" + cal.get(Calendar.MINUTE);
-            time = CustomInterface.setTimeAlarm(cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE));
+            time = Util.setTimeAlarm(cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE));
         }
         timePicker.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
             @Override
             public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
                 Log.d(TAG, "onTimeChanged: " + hourOfDay + ":" + minute);
-                time = CustomInterface.setTimeAlarm(hourOfDay, minute);
+                time = Util.setTimeAlarm(hourOfDay, minute);
             }
         });
 

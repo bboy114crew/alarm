@@ -1,4 +1,4 @@
-package com.thangnv.fu.common;
+package com.thangnv.fu.utils;
 
 import com.thangnv.fu.model.AlarmInfo;
 
@@ -13,6 +13,14 @@ import io.realm.RealmResults;
  */
 
 public class DbUtil {
+    private static DbUtil dbUtil;
+
+    public static DbUtil getInstance(){
+        if (dbUtil == null){
+            dbUtil = new DbUtil();
+        }
+        return dbUtil;
+    }
     public static void addAlarmToDb(Realm mRealm, final String time, final boolean status) {
 
         mRealm.executeTransactionAsync(new Realm.Transaction() {
