@@ -5,4 +5,8 @@ package com.thangnv.fu.common;
  */
 
 public class Constants {
+    public static final int STATE_ALARM = 1;
+    public static final int STATE_CLOCK = 2;
+    public static final int STATE_WATCH = 3;
+    public static final int STATE_TIMER = 4;
 }

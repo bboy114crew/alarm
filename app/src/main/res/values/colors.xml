@@ -10,5 +10,5 @@
     <color name="text_light">#9a9a9a</color>
     <color name="selected_color">#108F09</color>
     <color name="normal_color">#777777</color>
-
+    <color name="horizontal_line_color">#E0E0E0</color>
 </resources>

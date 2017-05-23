@@ -21,32 +21,31 @@ public class DbUtil {
         }
         return dbUtil;
     }
-    public static void addAlarmToDb(Realm mRealm, final String time, final boolean status) {
+    public static void addAlarmToDb(Realm realm, final String time, final boolean status) {
 
-        mRealm.executeTransactionAsync(new Realm.Transaction() {
+        realm.executeTransactionAsync(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
                 Number maxId = realm.where(AlarmInfo.class).max("id");
                 int nextId = (maxId == null) ? 1 : maxId.intValue() + 1;
-                AlarmInfo mAlarmInfo = realm.createObject(AlarmInfo.class, nextId);
-                mAlarmInfo.setTimeAlarm(time);
-                mAlarmInfo.setStateAlarm(status);
+                AlarmInfo alarmInfo = realm.createObject(AlarmInfo.class, nextId);
+                alarmInfo.setTimeAlarm(time);
+                alarmInfo.setStateAlarm(status);
             }
         });
     }
 
 
     public static List<AlarmInfo> getAllAlarm(Realm realm) {
-        List<AlarmInfo> mAlarmInfos = new RealmList<>();
+        List<AlarmInfo> alarmInfoList = new RealmList<>();
         RealmResults<AlarmInfo> realmResults = realm.where(AlarmInfo.class).findAll();
-        mAlarmInfos.addAll(realmResults);
-        return mAlarmInfos;
+        alarmInfoList.addAll(realmResults);
+        return alarmInfoList;
     }
 
 
 
     public static AlarmInfo updateAlarmTime(Realm realm, String time, long id) {
-
         AlarmInfo alarmInfo = realm.where(AlarmInfo.class).equalTo("id", id).findFirst();
         realm.beginTransaction();
         alarmInfo.setTimeAlarm(time);
@@ -56,7 +55,6 @@ public class DbUtil {
 
 
     public static AlarmInfo updateAlarmStatus(Realm realm, boolean state, long id) {
-
         AlarmInfo alarmInfo = realm.where(AlarmInfo.class).equalTo("id", id).findFirst();
         realm.beginTransaction();
         alarmInfo.setStateAlarm(state);

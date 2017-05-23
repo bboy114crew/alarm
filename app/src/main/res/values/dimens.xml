@@ -7,4 +7,9 @@
     <dimen name="image_view_height">30dp</dimen>
     <dimen name="image_view_width">30dp</dimen>
     <dimen name="margin_element_fragment">5dp</dimen>
+    <dimen name="actionbar_img_width">35dp</dimen>
+    <dimen name="actionbar_img_height">35dp</dimen>
+    <dimen name="title_fragment_text_size">18sp</dimen>
+    <dimen name="padding_layout">10dp</dimen>
+    <dimen name="horizontal_line_height">1dp</dimen>
 </resources>

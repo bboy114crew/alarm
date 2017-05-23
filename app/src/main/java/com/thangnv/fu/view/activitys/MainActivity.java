@@ -15,31 +15,42 @@ import android.widget.TextView;
 import com.thangnv.fu.R;
 import com.thangnv.fu.base.BaseActivity;
 import com.thangnv.fu.listener.OnSaveAlarmListener;
+import com.thangnv.fu.utils.LogUtil;
 import com.thangnv.fu.view.dialogs.AlarmDialog;
 import com.thangnv.fu.view.fragments.AlarmFragment;
 import com.thangnv.fu.view.fragments.ClockFragment;
 
-public class MainActivity extends BaseActivity implements View.OnClickListener, ClockFragment.OnFragmentInteractionListener {
-    private static final String TAG = "MainActivity";
+import static com.thangnv.fu.common.Constants.STATE_ALARM;
+import static com.thangnv.fu.common.Constants.STATE_CLOCK;
+import static com.thangnv.fu.common.Constants.STATE_TIMER;
+import static com.thangnv.fu.common.Constants.STATE_WATCH;
 
-    private static final int STATE_ALARM = 1;
-    private static final int STATE_CLOCK = 2;
-    private static final int STATE_WATCH = 3;
-    private static final int STATE_TIMER = 4;
+public class MainActivity extends BaseActivity implements View.OnClickListener, ClockFragment.OnFragmentInteractionListener {
 
     private TextView tvTitle;
-    private TextView txtAlarm;
-    private TextView txtClock;
 
-    private TextView btnEdit;
+
+    private ImageView btnEdit;
     private ImageView btnAdd;
     private LinearLayout viewAlarm;
     private LinearLayout viewWatch;
+    private LinearLayout viewTimer;
+    private LinearLayout viewStopWatch;
     private ImageView btnAlarm;
+    private TextView txtAlarm;
     private ImageView btnClock;
-    private Fragment currentFragment;
+    private TextView txtClock;
+    private ImageView btnTimer;
+    private TextView txtTimer;
+    private ImageView btnStopWatch;
+    private TextView txtStopWatch;
 
+    private Fragment currentFragment;
     private int stateFragment = STATE_CLOCK;
+
+    public void setCurrentFragment(Fragment currentFragment) {
+        this.currentFragment = currentFragment;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,16 +58,22 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         setContentView(R.layout.activity_main);
         initViews();
         viewAlarm.setOnClickListener(this);
+        viewWatch.setOnClickListener(this);
+        viewTimer.setOnClickListener(this);
+        viewStopWatch.setOnClickListener(this);
+
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 clickAddBySate(stateFragment);
             }
         });
-        viewWatch.setOnClickListener(this);
         changeFragmentByState(stateFragment);
     }
 
+    public void setStateFragment(int stateFragment) {
+        this.stateFragment = stateFragment;
+    }
 
     @Override
     protected void onStart() {
@@ -98,46 +115,66 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         switch (view.getId()) {
             case R.id.view_watch:
                 Log.d(TAG, "onClick: view_watch");
-                stateFragment = STATE_CLOCK;
+                setStateFragment(STATE_CLOCK);
                 changeFragmentByState(stateFragment);
                 break;
             case R.id.view_alarm:
                 Log.d(TAG, "onClick: view_alarm");
-                stateFragment = STATE_ALARM;
+                setStateFragment(STATE_ALARM);
                 changeFragmentByState(stateFragment);
+                break;
+            case R.id.view_timer:
+                LogUtil.d(TAG, "onClick: view_timer");
+                setStateFragment(STATE_TIMER);
+                updateViewByState(stateFragment);
+                break;
+            case R.id.view_stop_watch:
+                LogUtil.d(TAG, "onClick: view_stop_watch");
+                setStateFragment(STATE_WATCH);
+                updateViewByState(stateFragment);
                 break;
             case R.id.btn_edit:
                 clickEditByState(stateFragment);
 
         }
     }
-    private void initViews(){
+
+    @Override
+    public void initViews() {
+        super.initViews();
         viewAlarm = (LinearLayout) findViewById(R.id.view_alarm);
-        tvTitle = (TextView) findViewById(R.id.tv_title);
-        btnEdit = (TextView) findViewById(R.id.btn_edit);
-        btnAdd = (ImageView) findViewById(R.id.btn_add);
         viewWatch = (LinearLayout) findViewById(R.id.view_watch);
+        viewTimer = (LinearLayout) findViewById(R.id.view_timer);
+        viewStopWatch = (LinearLayout) findViewById(R.id.view_stop_watch);
+        tvTitle = (TextView) findViewById(R.id.tv_title);
+        btnEdit = (ImageView) findViewById(R.id.btn_edit);
+        btnAdd = (ImageView) findViewById(R.id.btn_add);
         btnAlarm = (ImageView) findViewById(R.id.btn_alarm);
+        txtAlarm = (TextView) findViewById(R.id.txt_alarm);
         btnClock = (ImageView) findViewById(R.id.btn_clock);
         txtClock = (TextView) findViewById(R.id.txt_clock);
-        txtAlarm = (TextView) findViewById(R.id.txt_alarm);
+        btnTimer = (ImageView) findViewById(R.id.btn_timer);
+        txtTimer = (TextView) findViewById(R.id.txt_timer);
+        btnStopWatch = (ImageView) findViewById(R.id.btn_stop_watch);
+        txtStopWatch = (TextView) findViewById(R.id.txt_stop_watch);
     }
-    private void replaceFragment(Fragment mFragment, String tag) {
+
+    private void replaceFragment(Fragment fragment, String tag) {
         FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction mFragmentTransaction = fragmentManager.beginTransaction();
-        mFragmentTransaction.replace(R.id.content, mFragment, tag);
-        mFragmentTransaction.commit();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.content, fragment, tag);
+        fragmentTransaction.commit();
     }
 
     private void changeFragmentByState(int state) {
         switch (state) {
             case STATE_ALARM:
-                currentFragment = AlarmFragment.newInstance();
+                setCurrentFragment(AlarmFragment.newInstance());
                 replaceFragment(currentFragment, "ALARM_FRAGMENT");
                 updateViewByState(state);
                 break;
             case STATE_CLOCK:
-                currentFragment = ClockFragment.newInstance();
+                setCurrentFragment(ClockFragment.newInstance());
                 replaceFragment(currentFragment, "CLOCK_FRAGMENT");
                 updateViewByState(state);
                 break;
@@ -147,19 +184,48 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     private void updateViewByState(int state) {
         switch (state) {
             case STATE_CLOCK:
-                tvTitle.setText("World Clock");
-                btnAlarm.setImageResource(R.drawable.ic_alarm_selector);
+                tvTitle.setText(getString(R.string.world_clock));
                 btnClock.setImageResource(R.drawable.ic_lens_selected);
+                btnAlarm.setImageResource(R.drawable.ic_alarm_selector);
+                btnTimer.setImageResource(R.drawable.ic_timer_selector);
+                btnStopWatch.setImageResource(R.drawable.ic_watch_selector);
                 txtClock.setTextColor(ContextCompat.getColor(this, R.color.selected_color));
                 txtAlarm.setTextColor(ContextCompat.getColor(this, R.color.tab_text_selector));
+                txtTimer.setTextColor(ContextCompat.getColor(this, R.color.tab_text_selector));
+                txtStopWatch.setTextColor(ContextCompat.getColor(this, R.color.tab_text_selector));
                 break;
             case STATE_ALARM:
-                tvTitle.setText("Alarm");
+                tvTitle.setText(getString(R.string.alarm));
                 btnAlarm.setImageResource(R.drawable.ic_alarm_selected);
                 btnClock.setImageResource(R.drawable.ic_lens_selector);
+                btnTimer.setImageResource(R.drawable.ic_timer_selector);
+                btnStopWatch.setImageResource(R.drawable.ic_watch_selector);
                 txtClock.setTextColor(ContextCompat.getColor(this, R.color.tab_text_selector));
                 txtAlarm.setTextColor(ContextCompat.getColor(this, R.color.selected_color));
+                txtTimer.setTextColor(ContextCompat.getColor(this, R.color.tab_text_selector));
+                txtStopWatch.setTextColor(ContextCompat.getColor(this, R.color.tab_text_selector));
                 break;
+            case STATE_TIMER:
+                btnAlarm.setImageResource(R.drawable.ic_alarm_selector);
+                btnClock.setImageResource(R.drawable.ic_lens_selector);
+                btnTimer.setImageResource(R.drawable.ic_timer_selected);
+                btnStopWatch.setImageResource(R.drawable.ic_watch_selector);
+                txtClock.setTextColor(ContextCompat.getColor(this, R.color.tab_text_selector));
+                txtAlarm.setTextColor(ContextCompat.getColor(this, R.color.tab_text_selector));
+                txtTimer.setTextColor(ContextCompat.getColor(this, R.color.selected_color));
+                txtStopWatch.setTextColor(ContextCompat.getColor(this, R.color.tab_text_selector));
+                break;
+            case STATE_WATCH:
+                btnAlarm.setImageResource(R.drawable.ic_alarm_selector);
+                btnClock.setImageResource(R.drawable.ic_lens_selector);
+                btnTimer.setImageResource(R.drawable.ic_timer_selector);
+                btnStopWatch.setImageResource(R.drawable.ic_watch_selected);
+                txtClock.setTextColor(ContextCompat.getColor(this, R.color.tab_text_selector));
+                txtAlarm.setTextColor(ContextCompat.getColor(this, R.color.tab_text_selector));
+                txtTimer.setTextColor(ContextCompat.getColor(this, R.color.tab_text_selector));
+                txtStopWatch.setTextColor(ContextCompat.getColor(this, R.color.selected_color));
+                break;
+
         }
     }
 
@@ -177,10 +243,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     private void clickAddBySate(int state) {
         switch (state) {
             case STATE_CLOCK:
-
+                LogUtil.d(TAG, "Click add clock button");
                 break;
             case STATE_ALARM:
-
+                LogUtil.d(TAG, "Click add alarm button");
                 AlarmDialog alarmDialog = new AlarmDialog(this, new OnSaveAlarmListener() {
                     @Override
                     public void onCancel() {
@@ -203,4 +269,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 break;
         }
     }
+
+
 }

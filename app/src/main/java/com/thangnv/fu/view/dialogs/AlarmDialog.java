@@ -56,7 +56,6 @@ public class AlarmDialog extends Dialog {
         btnSave = (TextView) findViewById(R.id.btn_save);
         timePicker = (TimePicker) findViewById(R.id.timePicker);
 
-        //timePicker.setIs24HourView(true);
         if (time != null) {
             String[] parts = time.split(":");
             int newHour = Integer.parseInt(parts[0]);
@@ -97,7 +96,7 @@ public class AlarmDialog extends Dialog {
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlarmDialog.this.dismiss();
+                dismiss();
             }
         });
     }

@@ -2,7 +2,6 @@ package com.thangnv.fu.view.adapters;
 
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +12,7 @@ import android.widget.TextView;
 import com.thangnv.fu.R;
 import com.thangnv.fu.listener.OnClickItemListViewListener;
 import com.thangnv.fu.model.AlarmInfo;
+import com.thangnv.fu.utils.LogUtil;
 
 import java.util.List;
 
@@ -27,23 +27,31 @@ public class CustomListAdapter extends BaseAdapter {
     private List<AlarmInfo> listData;
     private LayoutInflater layoutInflater;
     private Context context;
-    private OnClickItemListViewListener mOnClickListener;
+    private OnClickItemListViewListener onClickItemListViewListener;
 
-    public CustomListAdapter(Context context, List<AlarmInfo> listData, OnClickItemListViewListener mOnClickListener) {
+    public CustomListAdapter(Context context, List<AlarmInfo> listData, OnClickItemListViewListener onClickItemListViewListener) {
         this.listData = listData;
         this.context = context;
         layoutInflater = LayoutInflater.from(context);
-        this.mOnClickListener = mOnClickListener;
+        this.onClickItemListViewListener = onClickItemListViewListener;
     }
 
     @Override
     public int getCount() {
-        return listData.size();
+        if (checkDataEmpty(listData)) {
+            return listData.size();
+        } else {
+            return 0;
+        }
     }
 
     @Override
     public Object getItem(int position) {
-        return listData.get(position);
+
+        if (checkDataSize(listData, position)) {
+            return listData.get(position);
+        } else
+            return null;
     }
 
     @Override
@@ -65,58 +73,66 @@ public class CustomListAdapter extends BaseAdapter {
         } else {
             viewHolder = (ViewHolder) view.getTag();
         }
-        Log.d(TAG, "getView: " + position);
         AlarmInfo alarmInfo = this.listData.get(position);
         viewHolder.timeAlarm.setText(alarmInfo.getTimeAlarm());
-
         String[] parts = alarmInfo.getTimeAlarm().split(":");
         int newHour = Integer.parseInt(parts[0]);
-        if (newHour > 12){
+        if (newHour > 12) {
             viewHolder.tvState.setText("PM");
         } else {
             viewHolder.tvState.setText("AM");
         }
-
         viewHolder.stateAlarm.setChecked(alarmInfo.isStateAlarm());
         int color = getColor(context, R.color.text_dark);
         if (!alarmInfo.isStateAlarm()) {
             color = ContextCompat.getColor(context, R.color.text_light);
         }
-
         viewHolder.timeAlarm.setTextColor(color);
-
         viewHolder.stateAlarm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 if (listData != null && listData.size() >= position) {
                     AlarmInfo alarmInfo = listData.get(position);
+                    LogUtil.d(TAG, "switch" + alarmInfo.isStateAlarm() + "to" + !alarmInfo.isStateAlarm());
                     boolean new_status = !alarmInfo.isStateAlarm();
                     viewHolder.stateAlarm.setChecked(new_status);
-                    if (mOnClickListener != null) {
-                        mOnClickListener.onUpdateStatus(v, new_status, alarmInfo.getId(), position);
+                    if (onClickItemListViewListener != null) {
+                        onClickItemListViewListener.onUpdateStatus(v, new_status, alarmInfo.getId(), position);
                     }
                 }
-
             }
-
         });
-        Log.d(TAG, "getView: " + viewHolder.stateAlarm.isChecked());
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mOnClickListener != null) {
-                    mOnClickListener.OnClickItem(v, position);
-
+                if (onClickItemListViewListener != null) {
+                    onClickItemListViewListener.OnClickItem(v, position);
+                    LogUtil.d(TAG, "Click to " + v + position);
                 }
             }
         });
         return view;
     }
 
+    public boolean checkDataEmpty(List<AlarmInfo> listData) {
+        if (listData != null) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean checkDataSize(List<AlarmInfo> listData, int position) {
+        if (listData != null && listData.size() > position) {
+            return true;
+        }
+        return false;
+    }
+
     private class ViewHolder {
         private View itemView;
-        public TextView timeAlarm;
-        public TextView tvState;
-        public Switch stateAlarm;
+        private TextView timeAlarm;
+        private TextView tvState;
+        private Switch stateAlarm;
     }
 }
