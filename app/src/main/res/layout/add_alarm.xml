@@ -19,22 +19,24 @@
         android:layout_height="wrap_content"
         android:id="@+id/guideline1"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.7" />
+        app:layout_constraintGuide_percent="0.7"
+        tools:layout_editor_absoluteY="397dp"
+        tools:layout_editor_absoluteX="0dp" />
     <android.support.constraint.Guideline
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/guideline2"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.75"
-        tools:layout_editor_absoluteY="437dp"
+        tools:layout_editor_absoluteY="426dp"
         tools:layout_editor_absoluteX="0dp" />
     <android.support.constraint.Guideline
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/guideline3"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.80"
-        tools:layout_editor_absoluteY="477dp"
+        app:layout_constraintGuide_percent="0.8"
+        tools:layout_editor_absoluteY="454dp"
         tools:layout_editor_absoluteX="0dp" />
     <android.support.constraint.Guideline
         android:layout_width="wrap_content"
@@ -42,31 +44,183 @@
         android:id="@+id/guideline4"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.85"
-        tools:layout_editor_absoluteY="516dp"
+        tools:layout_editor_absoluteY="482dp"
         tools:layout_editor_absoluteX="0dp" />
     <android.support.constraint.Guideline
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/guideline5"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.90"
-        tools:layout_editor_absoluteY="556dp"
+        app:layout_constraintGuide_percent="0.9"
+        tools:layout_editor_absoluteY="511dp"
         tools:layout_editor_absoluteX="0dp" />
-
-    <RelativeLayout
+    <android.support.constraint.Guideline
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/guideline6"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.95"
+        tools:layout_editor_absoluteY="511dp"
+        tools:layout_editor_absoluteX="0dp" />
+    <android.support.constraint.Guideline
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/guideline7"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="1"
+        tools:layout_editor_absoluteY="511dp"
+        tools:layout_editor_absoluteX="0dp" />
+    <TimePicker
+        android:id="@+id/timePicker"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="0dp"
-        android:layout_marginRight="0dp"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginLeft="0dp"
+        android:headerBackground="#ff9800"
+        android:numbersSelectorColor="#ff9800"
+        app:layout_constraintBottom_toTopOf="@+id/guideline1"
         app:layout_constraintLeft_toLeftOf="parent"
-        android:padding="16dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/relativeLayout" />
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout1"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:gravity="center_vertical"
-        android:id="@+id/relativeLayout">
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/guideline2"
+        app:layout_constraintVertical_bias="1.0"
+        app:layout_constraintTop_toBottomOf="@+id/timePicker"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:textColor="@color/option_dark_color"
+            android:text="@string/repeater"
+            android:gravity="center"
+            android:paddingLeft="16dp"/>
+        <ImageView
+            android:id="@+id/right_repeater"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/ic_right"/>
+        <TextView
+            android:id="@+id/choosed_day"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_toLeftOf="@id/right_repeater"
+            android:text="Monday"
+            android:gravity="center"/>
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/relativeLayout2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:gravity="center_vertical"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline3"
+        app:layout_constraintTop_toTopOf="@+id/guideline2"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:textColor="@color/option_dark_color"
+            android:text="@string/Label"
+            android:gravity="center"
+            android:paddingLeft="16dp"/>
+        <ImageView
+            android:id="@+id/right_label"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/ic_right"/>
+        <TextView
+            android:id="@+id/label"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_toLeftOf="@id/right_label"
+            android:text="Alarm"
+            android:gravity="center"/>
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/relativeLayout3"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:gravity="center_vertical"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline4"
+        app:layout_constraintTop_toTopOf="@+id/guideline3"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:textColor="@color/option_dark_color"
+            android:text="@string/sound"
+            android:gravity="center"
+            android:paddingLeft="16dp"/>
+        <ImageView
+            android:id="@+id/right_sound"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/ic_right"/>
+        <TextView
+            android:id="@+id/sound"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_toLeftOf="@id/right_sound"
+            android:text="By The Seaside"
+            android:gravity="center"/>
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/relativeLayout4"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:gravity="center_vertical"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline5"
+        app:layout_constraintTop_toTopOf="@+id/guideline4"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:textColor="@color/option_dark_color"
+            android:text="@string/snoodze"
+            android:gravity="center"
+            android:paddingLeft="16dp"/>
+        <Switch
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:checked="true"
+            />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:gravity="center_vertical"
+        android:padding="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0">
+
         <TextView
             android:id="@+id/btn_cancel"
             android:layout_width="wrap_content"
@@ -96,18 +250,21 @@
             android:textSize="18sp" />
     </RelativeLayout>
 
-    <TimePicker
-        android:id="@+id/timePicker"
+    <TextView
+        android:id="@+id/textView2"
         android:layout_width="0dp"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:layout_marginBottom="0dp"
-        android:layout_marginLeft="0dp"
-        android:layout_marginRight="0dp"
         android:layout_marginTop="0dp"
-        android:headerBackground="#ff9800"
-        android:numbersSelectorColor="#ff9800"
-        app:layout_constraintBottom_toTopOf="@+id/guideline1"
-        app:layout_constraintLeft_toLeftOf="parent"
+        android:gravity="center"
+        android:text="@string/delete_alarm"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline6"
+        app:layout_constraintVertical_bias="0.0"
+        android:layout_marginRight="0dp"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/relativeLayout" />
+        android:layout_marginLeft="0dp"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
+
 </android.support.constraint.ConstraintLayout>

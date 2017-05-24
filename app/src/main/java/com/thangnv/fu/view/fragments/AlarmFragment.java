@@ -23,6 +23,8 @@ import java.util.List;
 import io.realm.Realm;
 import io.realm.RealmChangeListener;
 
+import static com.thangnv.fu.common.Constants.STATE_EDIT;
+
 
 public class AlarmFragment extends BaseFragment implements OnSaveAlarmListener {
 
@@ -46,10 +48,8 @@ public class AlarmFragment extends BaseFragment implements OnSaveAlarmListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         realm = Realm.getDefaultInstance();
         mAlarmInfos = DbUtil.getInstance().getAllAlarm(realm);
-
     }
 
     @Override
@@ -67,24 +67,16 @@ public class AlarmFragment extends BaseFragment implements OnSaveAlarmListener {
                 alarmDialog.show();
                 alarmDialog.getWindow().setAttributes(lp);
             }
-
             @Override
             public void onUpdateStatus(View mView, boolean status, long id, int position) {
                 AlarmInfo mAlarmInfo = DbUtil.getInstance().updateAlarmStatus(realm, status, id);
                 mAlarmInfos.set(position, mAlarmInfo);
                 adapter.notifyDataSetChanged();
-
             }
-
-
-
         });
-
         View view = inflater.inflate(R.layout.fragment_alarm, container, false);
         ListView listView = (ListView) view.findViewById(R.id.listAlarm);
         listView.setAdapter(adapter);
-
-
         realm.addChangeListener(new RealmChangeListener<Realm>() {
             @Override
             public void onChange(Realm realm) {
@@ -93,10 +85,6 @@ public class AlarmFragment extends BaseFragment implements OnSaveAlarmListener {
         });
         return view;
     }
-
-
-
-
 
     @Override
     public void onDestroyView() {
@@ -121,7 +109,7 @@ public class AlarmFragment extends BaseFragment implements OnSaveAlarmListener {
 
     @Override
     public void onSaveSuccess(String time, int position, int state) {
-        if (state == OnSaveAlarmListener.STATE_EDIT) {
+        if (state == STATE_EDIT) {
             AlarmInfo mAlarmInfo = DbUtil.getInstance().updateAlarmTime(realm, time, mAlarmInfos.get(position).getId());
             mAlarmInfos.set(position, mAlarmInfo);
             adapter.notifyDataSetChanged();

@@ -14,4 +14,5 @@
         android:focusableInTouchMode="true"
         android:clickable="true"
         android:layout_centerHorizontal="true" />
+
 </FrameLayout>

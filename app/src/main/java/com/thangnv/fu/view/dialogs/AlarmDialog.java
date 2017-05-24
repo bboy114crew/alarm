@@ -13,9 +13,13 @@ import android.widget.TimePicker;
 
 import com.thangnv.fu.R;
 import com.thangnv.fu.listener.OnSaveAlarmListener;
+import com.thangnv.fu.utils.LogUtil;
 import com.thangnv.fu.utils.Util;
 
 import java.util.Calendar;
+
+import static com.thangnv.fu.common.Constants.STATE_ADD;
+import static com.thangnv.fu.common.Constants.STATE_EDIT;
 
 /**
  * Created by ll on 5/16/2017.
@@ -30,7 +34,7 @@ public class AlarmDialog extends Dialog {
     private String time;
     private int position;
     private OnSaveAlarmListener mOnSaveAlarmListener;
-    private int state = OnSaveAlarmListener.STATE_ADD;
+    private int state = STATE_ADD;
 
     public AlarmDialog(Context activity, OnSaveAlarmListener mOnSaveAlarmListener) {
         super(activity);
@@ -60,7 +64,7 @@ public class AlarmDialog extends Dialog {
             String[] parts = time.split(":");
             int newHour = Integer.parseInt(parts[0]);
             int newMinutes = Integer.parseInt(parts[1]);
-            state = OnSaveAlarmListener.STATE_EDIT;
+            state = STATE_EDIT;
             timePicker.setIs24HourView(true);
             int currentApiVersion = android.os.Build.VERSION.SDK_INT;
             if (currentApiVersion > android.os.Build.VERSION_CODES.LOLLIPOP_MR1) {
@@ -96,6 +100,7 @@ public class AlarmDialog extends Dialog {
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                LogUtil.d(TAG, "Click cancel button");
                 dismiss();
             }
         });

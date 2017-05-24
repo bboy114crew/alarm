@@ -64,11 +64,7 @@ public class CustomListAdapter extends BaseAdapter {
         final ViewHolder viewHolder;
         if (view == null) {
             view = layoutInflater.inflate(R.layout.list_alarm_layout, null);
-            viewHolder = new ViewHolder();
-            viewHolder.timeAlarm = (TextView) view.findViewById(R.id.tv_TimeAlarm);
-            viewHolder.tvState = (TextView) view.findViewById(R.id.tv_State);
-            viewHolder.stateAlarm = (Switch) view.findViewById(R.id.sw_state);
-            viewHolder.itemView = view.findViewById(R.id.layout_item_alarm);
+            viewHolder = new ViewHolder(view);
             view.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) view.getTag();
@@ -91,10 +87,9 @@ public class CustomListAdapter extends BaseAdapter {
         viewHolder.stateAlarm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                if (listData != null && listData.size() >= position) {
+                if (checkDataSize(listData,position)) {
                     AlarmInfo alarmInfo = listData.get(position);
-                    LogUtil.d(TAG, "switch" + alarmInfo.isStateAlarm() + "to" + !alarmInfo.isStateAlarm());
+                    LogUtil.d(TAG, "switch " + alarmInfo.isStateAlarm() + " to " + !alarmInfo.isStateAlarm());
                     boolean new_status = !alarmInfo.isStateAlarm();
                     viewHolder.stateAlarm.setChecked(new_status);
                     if (onClickItemListViewListener != null) {
@@ -134,5 +129,11 @@ public class CustomListAdapter extends BaseAdapter {
         private TextView timeAlarm;
         private TextView tvState;
         private Switch stateAlarm;
+        public ViewHolder (View view){
+            this.timeAlarm = (TextView) view.findViewById(R.id.tv_TimeAlarm);
+            this.tvState = (TextView) view.findViewById(R.id.tv_State);
+            this.stateAlarm = (Switch) view.findViewById(R.id.sw_state);
+            this.itemView = view.findViewById(R.id.layout_item_alarm);
+        }
     }
 }

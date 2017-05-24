@@ -46,7 +46,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     private TextView txtStopWatch;
 
     private Fragment currentFragment;
-    private int stateFragment = STATE_CLOCK;
+    private int stateFragment ;
 
     public void setCurrentFragment(Fragment currentFragment) {
         this.currentFragment = currentFragment;
@@ -61,7 +61,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         viewWatch.setOnClickListener(this);
         viewTimer.setOnClickListener(this);
         viewStopWatch.setOnClickListener(this);
-
+        setStateFragment(STATE_CLOCK);
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

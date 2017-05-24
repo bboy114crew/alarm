@@ -5,8 +5,7 @@ package com.thangnv.fu.listener;
  */
 
 public interface OnSaveAlarmListener {
-    public static final int STATE_EDIT = 1;
-    public static final int STATE_ADD = 2;
+
 
     void onCancel();
 

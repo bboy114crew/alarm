@@ -6,4 +6,11 @@
     <string name="world_clock">World clock</string>
     <string name="edit_button">Remove</string>
     <string name="add_button">Add</string>
+    <string name="AM_time">AM</string>
+    <string name="PM_time">PM</string>
+    <string name="repeater">Repeate</string>
+    <string name="Label">Label</string>
+    <string name="sound">Sound</string>
+    <string name="snoodze">Snoodze</string>
+    <string name="delete_alarm">Delete Alarm</string>
 </resources>

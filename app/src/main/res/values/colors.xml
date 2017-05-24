@@ -11,4 +11,5 @@
     <color name="selected_color">#108F09</color>
     <color name="normal_color">#777777</color>
     <color name="horizontal_line_color">#E0E0E0</color>
+    <color name="option_dark_color">#1E2021</color>
 </resources>
