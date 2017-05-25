@@ -23,13 +23,13 @@ import static android.support.v4.content.ContextCompat.getColor;
  * Created by ThangNV28 on 5/15/2017.
  */
 
-public class CustomListAdapter extends BaseAdapter {
+public class CustomListAlarmAdapter extends BaseAdapter {
     private List<AlarmInfo> listData;
     private LayoutInflater layoutInflater;
     private Context context;
     private OnClickItemListViewListener onClickItemListViewListener;
 
-    public CustomListAdapter(Context context, List<AlarmInfo> listData, OnClickItemListViewListener onClickItemListViewListener) {
+    public CustomListAlarmAdapter(Context context, List<AlarmInfo> listData, OnClickItemListViewListener onClickItemListViewListener) {
         this.listData = listData;
         this.context = context;
         layoutInflater = LayoutInflater.from(context);

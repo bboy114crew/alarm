@@ -44,7 +44,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     private TextView txtTimer;
     private ImageView btnStopWatch;
     private TextView txtStopWatch;
-
+    private TextView txtDeleteAlarm;
     private Fragment currentFragment;
     private int stateFragment ;
 
@@ -113,6 +113,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+
             case R.id.view_watch:
                 Log.d(TAG, "onClick: view_watch");
                 setStateFragment(STATE_CLOCK);
@@ -258,6 +259,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                         if (currentFragment instanceof AlarmFragment) {
                             ((AlarmFragment) currentFragment).onSaveSuccess(time, position, state);
                         }
+                    }
+
+                    @Override
+                    public void onDelete() {
+
                     }
                 });
                 WindowManager.LayoutParams lp = new WindowManager.LayoutParams();

@@ -10,5 +10,7 @@ public interface OnSaveAlarmListener {
     void onCancel();
 
     void onSaveSuccess(String time,int position, int state);
+
+    void onDelete();
 }
 

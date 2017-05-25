@@ -14,6 +14,7 @@ public class AlarmInfo  extends RealmObject {
     private boolean stateAlarm;
 
     public AlarmInfo() {
+
     }
 
     public long getId() {

@@ -13,4 +13,5 @@
     <string name="sound">Sound</string>
     <string name="snoodze">Snoodze</string>
     <string name="delete_alarm">Delete Alarm</string>
+    <string name="back">Back</string>
 </resources>

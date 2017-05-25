@@ -15,7 +15,7 @@ import com.thangnv.fu.listener.OnSaveAlarmListener;
 import com.thangnv.fu.model.AlarmInfo;
 import com.thangnv.fu.utils.DbUtil;
 import com.thangnv.fu.utils.LogUtil;
-import com.thangnv.fu.view.adapters.CustomListAdapter;
+import com.thangnv.fu.view.adapters.CustomListAlarmAdapter;
 import com.thangnv.fu.view.dialogs.AlarmDialog;
 
 import java.util.List;
@@ -29,7 +29,7 @@ import static com.thangnv.fu.common.Constants.STATE_EDIT;
 public class AlarmFragment extends BaseFragment implements OnSaveAlarmListener {
 
 
-    private CustomListAdapter adapter;
+    private CustomListAlarmAdapter adapter;
     //private List<Long> listAlarms;
     private Realm realm;
     private List<AlarmInfo> mAlarmInfos;
@@ -55,7 +55,7 @@ public class AlarmFragment extends BaseFragment implements OnSaveAlarmListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        adapter = new CustomListAdapter(getActivity(), mAlarmInfos, new OnClickItemListViewListener() {
+        adapter = new CustomListAlarmAdapter(getActivity(), mAlarmInfos, new OnClickItemListViewListener() {
             @Override
             public void OnClickItem(View mView, int position) {
                 AlarmDialog alarmDialog = new AlarmDialog(getActivity(), mAlarmInfos.get(position).getTimeAlarm(),
@@ -131,5 +131,10 @@ public class AlarmFragment extends BaseFragment implements OnSaveAlarmListener {
             DbUtil.getInstance().addAlarmToDb(realm, time, true);
             LogUtil.d(TAG, "Add data to database");
         }
+    }
+
+    @Override
+    public void onDelete() {
+
     }
 }

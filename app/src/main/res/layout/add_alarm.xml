@@ -101,17 +101,13 @@
             android:text="@string/repeater"
             android:gravity="center"
             android:paddingLeft="16dp"/>
-        <ImageView
-            android:id="@+id/right_repeater"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
-            android:src="@drawable/ic_right"/>
+
         <TextView
             android:id="@+id/choosed_day"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_toLeftOf="@id/right_repeater"
+            android:layout_alignParentRight="true"
+            android:drawableRight="@drawable/ic_right"
             android:text="Monday"
             android:gravity="center"/>
     </RelativeLayout>
@@ -201,6 +197,7 @@
             android:gravity="center"
             android:paddingLeft="16dp"/>
         <Switch
+            android:id="@+id/sw_state_snoodze"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
@@ -251,7 +248,7 @@
     </RelativeLayout>
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/deleteAlarm"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="0dp"
