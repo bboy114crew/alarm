@@ -7,7 +7,7 @@
     android:orientation="vertical">
 
     <RelativeLayout
-        android:id="@+id/action_bar_repeate"
+        android:id="@+id/action_bar_sound"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
@@ -53,6 +53,6 @@
     <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/action_bar_repeate"
+        android:layout_below="@id/action_bar_sound"
         android:id="@+id/listViewDay"/>
 </RelativeLayout>

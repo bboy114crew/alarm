@@ -11,29 +11,28 @@ import com.thangnv.fu.R;
 import com.thangnv.fu.listener.OnClickOptionAlarmListner;
 import com.thangnv.fu.utils.LogUtil;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static com.thangnv.fu.R.id.simpleCheckedTextView;
 
 /**
- * Created by ll on 5/25/2017.
+ * Created by ll on 5/26/2017.
  */
 
-public class CustomListDayAdapter extends BaseAdapter {
+public class CustomListSoundAdapter extends BaseAdapter {
     private List<String> names;
     private Context context;
     private LayoutInflater layoutInflater;
     private String value;
-    private ArrayList<Integer> listSelected;
+    private String ringTone;
+
     private OnClickOptionAlarmListner onClickOptionAlarmListner;
 
-    public CustomListDayAdapter(Context context, List<String> names, OnClickOptionAlarmListner onClickOptionAlarmListner) {
+    public CustomListSoundAdapter(Context context, List<String> names, OnClickOptionAlarmListner onClickOptionAlarmListner) {
         this.context = context;
         this.names = names;
         layoutInflater = (LayoutInflater.from(context));
         this.onClickOptionAlarmListner = onClickOptionAlarmListner;
-        listSelected = new ArrayList<>();
 
     }
 
@@ -74,33 +73,22 @@ public class CustomListDayAdapter extends BaseAdapter {
                         value = "un-Checked";
                         viewHolder.checkedTextView.setCheckMarkDrawable(null);
                         viewHolder.checkedTextView.setChecked(false);
-                        if(listSelected != null ) {
-                            for (int i = 0; i < listSelected.size(); i++) {
-                                if (listSelected.get(i) == position) {
-                                    listSelected.remove(i);
-                                    break;
-                                }
-                            }
-                        }
+
                     } else {
                         value = "Checked";
                         viewHolder.checkedTextView.setCheckMarkDrawable(R.drawable.ic_checked);
                         viewHolder.checkedTextView.setChecked(true);
-                        if(listSelected == null  ){
-                                listSelected.add(position);
-                        } else {
-                            if (checkExistValue(listSelected, position)) {
-                                listSelected.add(position);
-                            }
-                        }
-
+                        setRingTone(names.get(position));
                     }
-                    onClickOptionAlarmListner.addDayRepeate(v, listSelected);
                 }
                 LogUtil.d(LogUtil.TAG, value);
             }
         });
         return view;
+    }
+
+    public void setRingTone(String ringTone) {
+        this.ringTone = ringTone;
     }
 
     private class ViewHolder {
@@ -113,13 +101,5 @@ public class CustomListDayAdapter extends BaseAdapter {
             return true;
         }
         return false;
-    }
-    public boolean checkExistValue(ArrayList<Integer> arrayList, int position){
-        if(arrayList != null) {
-            if (arrayList.contains(position)) {
-                return false;
-            }
-        }
-        return true;
     }
 }

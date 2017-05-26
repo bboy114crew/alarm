@@ -31,6 +31,7 @@ public class DbUtil {
                 AlarmInfo alarmInfo = realm.createObject(AlarmInfo.class, nextId);
                 alarmInfo.setTimeAlarm(time);
                 alarmInfo.setStateAlarm(status);
+
             }
         });
     }

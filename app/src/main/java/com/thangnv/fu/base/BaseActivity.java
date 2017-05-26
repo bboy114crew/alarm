@@ -15,6 +15,7 @@ import com.thangnv.fu.utils.LogUtil;
 public class BaseActivity extends AppCompatActivity {
     public final String TAG = this.getClass().getSimpleName();
 
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,6 +59,10 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     public void initViews(){
+
+    }
+
+    public void addDayRepeate(){
 
     }
 }

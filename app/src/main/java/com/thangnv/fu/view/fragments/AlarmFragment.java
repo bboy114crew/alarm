@@ -115,7 +115,7 @@ public class AlarmFragment extends BaseFragment implements OnSaveAlarmListener {
             adapter.notifyDataSetChanged();
             LogUtil.d(TAG, "Update alarm");
         } else {
-            AlarmInfo mAlarmInfo =new AlarmInfo();
+            AlarmInfo mAlarmInfo = new AlarmInfo();
             mAlarmInfo.setTimeAlarm(time);
             mAlarmInfo.setStateAlarm(true);
             long maxId = 1;

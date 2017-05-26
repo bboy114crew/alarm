@@ -15,10 +15,12 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.thangnv.fu.R;
+import com.thangnv.fu.listener.OnClickOptionAlarmListner;
 import com.thangnv.fu.listener.OnSaveAlarmListener;
 import com.thangnv.fu.utils.LogUtil;
 import com.thangnv.fu.utils.Util;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import static com.thangnv.fu.common.Constants.STATE_ADD;
@@ -28,7 +30,7 @@ import static com.thangnv.fu.common.Constants.STATE_EDIT;
  * Created by ll on 5/16/2017.
  */
 
-public class AlarmDialog extends Dialog implements View.OnClickListener{
+public class AlarmDialog extends Dialog implements View.OnClickListener,OnClickOptionAlarmListner{
     private static final String TAG = "AlarmDialog";
 
     private TextView btnCancel;
@@ -150,10 +152,23 @@ public class AlarmDialog extends Dialog implements View.OnClickListener{
                 break;
             case R.id.relativeLayout3:
                 LogUtil.d(TAG, "Chooose Sound");
+                LogUtil.d(TAG, "Choose Label");
+                SoundDialog soundDialog = new SoundDialog(getContext());
+                WindowManager.LayoutParams lp3 = new WindowManager.LayoutParams();
+                lp3.copyFrom(soundDialog.getWindow().getAttributes());
+                lp3.width = WindowManager.LayoutParams.MATCH_PARENT;
+                lp3.height = WindowManager.LayoutParams.MATCH_PARENT;
+                soundDialog.show();
+                soundDialog.getWindow().setAttributes(lp3);
                 break;
             case R.id.sw_state_snoodze:
                 LogUtil.d(TAG, "Switch state of snoodze");
                 break;
         }
+    }
+
+    @Override
+    public void addDayRepeate(View view, ArrayList<Integer> arrayList) {
+
     }
 }

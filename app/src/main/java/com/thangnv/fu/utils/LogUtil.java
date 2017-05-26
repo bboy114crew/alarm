@@ -10,7 +10,7 @@ public class LogUtil {
 
     public static final boolean isShowLog = true;
 
-    private static final String TAG = "LogUtil";
+    public static final String TAG = "LogUtil";
 
     public static void d(String TAG,String message){
         if(isShowLog) {
