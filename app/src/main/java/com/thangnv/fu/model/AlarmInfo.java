@@ -12,10 +12,11 @@ public class AlarmInfo extends RealmObject {
     private long id;
     private String timeAlarm;
     private boolean stateAlarm;
+    private int alarmType;
 //    private String labelAlarm;
 //    private String soundAlarm;
 //    private boolean stateSnoodze;
-//    public RealmList<Integer> dayRepeate;
+//    public RealmList<RealmBoolean> dayRepeate;
 
     public AlarmInfo() {
     }

@@ -1,5 +1,6 @@
 package com.thangnv.fu.view.dialogs;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
@@ -14,7 +15,6 @@ import com.thangnv.fu.R;
 import com.thangnv.fu.listener.OnClickOptionAlarmListner;
 import com.thangnv.fu.view.adapters.CustomListDayAdapter;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -22,18 +22,21 @@ import java.util.List;
  * Created by ll on 5/25/2017.
  */
 
-public class DayDialog extends Dialog implements OnClickOptionAlarmListner{
+public class DayDialog extends Dialog {
     private LinearLayout viewBackDay;
+    private OnClickOptionAlarmListner mListener;
+
     @Override
     public boolean equals(Object obj) {
         return super.equals(obj);
 
     }
 
-    List<String> listDay = Arrays.asList("Every Monday", "Every Tuesday", "Every Wednesday", "Every Thursday", "Every Friday",
+    public static final List<String> listDay = Arrays.asList("Every Monday", "Every Tuesday", "Every Wednesday", "Every Thursday", "Every Friday",
                                 "Every Saturday", "Every Sunday");
     public DayDialog(@NonNull Context context) {
         super(context);
+        if(context instanceof OnClickOptionAlarmListner) mListener = (OnClickOptionAlarmListner)context;
     }
 
     @Override
@@ -45,12 +48,17 @@ public class DayDialog extends Dialog implements OnClickOptionAlarmListner{
         // initiate a ListView
         ListView listView = (ListView) findViewById(R.id.listViewDay);
         // set the adapter to fill the data in ListView
-        CustomListDayAdapter customAdapter = new CustomListDayAdapter(getContext(), listDay, DayDialog.this);
+        Activity ac = getOwnerActivity();
+//        if(ac instanceof MainActivity) Log.e("oke","true");
+//        else Log.e("oke","false");
+        CustomListDayAdapter customAdapter = new CustomListDayAdapter(getContext(), listDay, mListener);
+
         listView.setAdapter(customAdapter);
         viewBackDay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dismiss();
+
             }
         });
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -62,8 +70,5 @@ public class DayDialog extends Dialog implements OnClickOptionAlarmListner{
     }
 
 
-    @Override
-    public void addDayRepeate(View view, ArrayList<Integer> arrayList) {
 
-    }
 }

@@ -8,10 +8,10 @@ import android.widget.BaseAdapter;
 import android.widget.CheckedTextView;
 
 import com.thangnv.fu.R;
+import com.thangnv.fu.common.Constants;
 import com.thangnv.fu.listener.OnClickOptionAlarmListner;
 import com.thangnv.fu.utils.LogUtil;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static com.thangnv.fu.R.id.simpleCheckedTextView;
@@ -25,16 +25,15 @@ public class CustomListDayAdapter extends BaseAdapter {
     private Context context;
     private LayoutInflater layoutInflater;
     private String value;
-    private ArrayList<Integer> listSelected;
+    private boolean[] listSelected;
     private OnClickOptionAlarmListner onClickOptionAlarmListner;
-
+    private String dayString;
     public CustomListDayAdapter(Context context, List<String> names, OnClickOptionAlarmListner onClickOptionAlarmListner) {
         this.context = context;
         this.names = names;
         layoutInflater = (LayoutInflater.from(context));
         this.onClickOptionAlarmListner = onClickOptionAlarmListner;
-        listSelected = new ArrayList<>();
-
+//        listSelected = ((MainActivity)context).getDayRepeate();
     }
 
     @Override
@@ -66,6 +65,7 @@ public class CustomListDayAdapter extends BaseAdapter {
         }
 
         viewHolder.checkedTextView.setText(names.get(position));
+
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -74,34 +74,52 @@ public class CustomListDayAdapter extends BaseAdapter {
                         value = "un-Checked";
                         viewHolder.checkedTextView.setCheckMarkDrawable(null);
                         viewHolder.checkedTextView.setChecked(false);
-                        if(listSelected != null ) {
-                            for (int i = 0; i < listSelected.size(); i++) {
-                                if (listSelected.get(i) == position) {
-                                    listSelected.remove(i);
-                                    break;
-                                }
-                            }
-                        }
+
+
                     } else {
                         value = "Checked";
                         viewHolder.checkedTextView.setCheckMarkDrawable(R.drawable.ic_checked);
                         viewHolder.checkedTextView.setChecked(true);
-                        if(listSelected == null  ){
-                                listSelected.add(position);
-                        } else {
-                            if (checkExistValue(listSelected, position)) {
-                                listSelected.add(position);
-                            }
-                        }
 
                     }
-                    onClickOptionAlarmListner.addDayRepeate(v, listSelected);
+
                 }
                 LogUtil.d(LogUtil.TAG, value);
             }
         });
         return view;
     }
+
+    public String getStringFromPosition(int position){
+
+        switch (position){
+            case Constants.MONDAY:
+                dayString = "Monday";
+                break;
+            case Constants.TUESDAY:
+                dayString = "Tuesday";
+                break;
+            case Constants.WEDNESDAY:
+                dayString = "Wednesday";
+                break;
+            case Constants.THURSDAY:
+                dayString = "Thursday";
+                break;
+            case Constants.FRIDAY:
+                dayString = "Friday";
+                break;
+            case Constants.SATURDAY:
+                dayString = "Saturday";
+                break;
+            case Constants.SUNDAY :
+                dayString = "Sunday";
+                break;
+            default:
+                dayString = "Never";
+        }
+        return dayString;
+    }
+
 
     private class ViewHolder {
         private View itemView;
@@ -114,12 +132,6 @@ public class CustomListDayAdapter extends BaseAdapter {
         }
         return false;
     }
-    public boolean checkExistValue(ArrayList<Integer> arrayList, int position){
-        if(arrayList != null) {
-            if (arrayList.contains(position)) {
-                return false;
-            }
-        }
-        return true;
-    }
+
+
 }

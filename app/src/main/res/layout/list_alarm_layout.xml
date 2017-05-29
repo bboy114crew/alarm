@@ -27,16 +27,15 @@
         android:id="@+id/tv_label_alarm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="hayhay"
+        android:text="Alarm"
         android:layout_below="@+id/view_time"
         />
     <TextView
         android:id="@+id/tv_day_repeate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="hayhay"
-        android:layout_below="@+id/view_time"
-        android:layout_toRightOf="@+id/tv_label_alarm"
+        android:text="Everyday"
+        android:layout_below="@+id/tv_label_alarm"
         />
 
     <TextView

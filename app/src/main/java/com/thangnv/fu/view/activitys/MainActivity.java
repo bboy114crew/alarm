@@ -14,18 +14,21 @@ import android.widget.TextView;
 
 import com.thangnv.fu.R;
 import com.thangnv.fu.base.BaseActivity;
+import com.thangnv.fu.listener.OnClickOptionAlarmListner;
 import com.thangnv.fu.listener.OnSaveAlarmListener;
 import com.thangnv.fu.utils.LogUtil;
 import com.thangnv.fu.view.dialogs.AlarmDialog;
 import com.thangnv.fu.view.fragments.AlarmFragment;
 import com.thangnv.fu.view.fragments.ClockFragment;
 
+import java.util.HashMap;
+
 import static com.thangnv.fu.common.Constants.STATE_ALARM;
 import static com.thangnv.fu.common.Constants.STATE_CLOCK;
 import static com.thangnv.fu.common.Constants.STATE_TIMER;
 import static com.thangnv.fu.common.Constants.STATE_WATCH;
 
-public class MainActivity extends BaseActivity implements View.OnClickListener, ClockFragment.OnFragmentInteractionListener {
+public class MainActivity extends BaseActivity implements View.OnClickListener, ClockFragment.OnFragmentInteractionListener, OnClickOptionAlarmListner {
 
     private TextView tvTitle;
 
@@ -47,6 +50,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     private TextView txtDeleteAlarm;
     private Fragment currentFragment;
     private int stateFragment ;
+
 
     public void setCurrentFragment(Fragment currentFragment) {
         this.currentFragment = currentFragment;
@@ -274,6 +278,17 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 alarmDialog.getWindow().setAttributes(lp);
                 break;
         }
+    }
+
+
+    @Override
+    public void addDayRepeate(View view, HashMap<String, Boolean> dayRepeate) {
+
+    }
+
+    @Override
+    public boolean[] getListDayRepeate() {
+        return new boolean[0];
     }
 
 

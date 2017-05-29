@@ -20,8 +20,8 @@ import com.thangnv.fu.listener.OnSaveAlarmListener;
 import com.thangnv.fu.utils.LogUtil;
 import com.thangnv.fu.utils.Util;
 
-import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 
 import static com.thangnv.fu.common.Constants.STATE_ADD;
 import static com.thangnv.fu.common.Constants.STATE_EDIT;
@@ -167,8 +167,16 @@ public class AlarmDialog extends Dialog implements View.OnClickListener,OnClickO
         }
     }
 
+
     @Override
-    public void addDayRepeate(View view, ArrayList<Integer> arrayList) {
+    public void addDayRepeate(View view, HashMap<String, Boolean> dayRepeate) {
 
     }
+
+    @Override
+    public boolean[] getListDayRepeate() {
+        return new boolean[0];
+    }
+
+
 }

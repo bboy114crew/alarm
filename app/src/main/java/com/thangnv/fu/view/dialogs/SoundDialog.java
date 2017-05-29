@@ -74,8 +74,15 @@ public class SoundDialog extends Dialog implements OnClickOptionAlarmListner{
         return list;
     }
 
+
     @Override
-    public void addDayRepeate(View view, ArrayList<Integer> arrayList) {
+    public void addDayRepeate(View view, HashMap<String, Boolean> dayRepeate) {
 
     }
+
+    @Override
+    public boolean[] getListDayRepeate() {
+        return new boolean[0];
+    }
+
 }
