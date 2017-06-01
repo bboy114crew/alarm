@@ -24,14 +24,13 @@ import java.util.Map;
  * Created by ll on 5/25/2017.
  */
 
-public class SoundDialog extends Dialog implements OnClickOptionAlarmListner{
+public class SoundDialog extends Dialog implements OnClickOptionAlarmListner {
     private LinearLayout viewBackSound;
 
     List<String> ringToneName = new ArrayList<>(getNotifications().keySet());
 
     public SoundDialog(@NonNull Context context) {
         super(context);
-
     }
 
     @Override
@@ -70,19 +69,9 @@ public class SoundDialog extends Dialog implements OnClickOptionAlarmListner{
 
             list.put(notificationTitle, notificationUri);
         }
-
         return list;
     }
 
 
-    @Override
-    public void addDayRepeate(View view, HashMap<String, Boolean> dayRepeate) {
-
-    }
-
-    @Override
-    public boolean[] getListDayRepeate() {
-        return new boolean[0];
-    }
 
 }

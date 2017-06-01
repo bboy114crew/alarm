@@ -25,6 +25,7 @@ public class CustomListSoundAdapter extends BaseAdapter {
     private LayoutInflater layoutInflater;
     private String value;
     private String ringTone;
+    private int currentSelected=-1;
 
     private OnClickOptionAlarmListner onClickOptionAlarmListner;
 
@@ -63,25 +64,36 @@ public class CustomListSoundAdapter extends BaseAdapter {
         } else {
             viewHolder = (ViewHolder) view.getTag();
         }
+        if (currentSelected != -1&& currentSelected==position) {
+            viewHolder.checkedTextView.setCheckMarkDrawable(R.drawable.ic_checked);
+        }else {
+            viewHolder.checkedTextView.setCheckMarkDrawable(null);
+        }
 
         viewHolder.checkedTextView.setText(names.get(position));
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (checkDataSize(names, position)) {
-                    if (viewHolder.checkedTextView.isChecked()) {
-                        value = "un-Checked";
-                        viewHolder.checkedTextView.setCheckMarkDrawable(null);
-                        viewHolder.checkedTextView.setChecked(false);
-
-                    } else {
-                        value = "Checked";
-                        viewHolder.checkedTextView.setCheckMarkDrawable(R.drawable.ic_checked);
-                        viewHolder.checkedTextView.setChecked(true);
-                        setRingTone(names.get(position));
-                    }
+                if(currentSelected==position){
+                    currentSelected=-1;
+                }else{
+                    currentSelected=position;
                 }
-                LogUtil.d(LogUtil.TAG, value);
+                notifyDataSetChanged();
+//                if (checkDataSize(names, position)) {
+//                    if (viewHolder.checkedTextView.isChecked()) {
+//                        value = "un-Checked";
+//                        viewHolder.checkedTextView.setCheckMarkDrawable(null);
+//                        viewHolder.checkedTextView.setChecked(false);
+//
+//                    } else {
+//                        value = "Checked";
+//                        viewHolder.checkedTextView.setCheckMarkDrawable(R.drawable.ic_checked);
+//                        viewHolder.checkedTextView.setChecked(true);
+//                        setRingTone(names.get(position));
+//                    }
+//                }
+//                LogUtil.d(LogUtil.TAG, value);
             }
         });
         return view;

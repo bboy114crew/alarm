@@ -13,11 +13,13 @@ import com.thangnv.fu.base.BaseFragment;
 import com.thangnv.fu.listener.OnClickItemListViewListener;
 import com.thangnv.fu.listener.OnSaveAlarmListener;
 import com.thangnv.fu.model.AlarmInfo;
+import com.thangnv.fu.model.RealmInteger;
 import com.thangnv.fu.utils.DbUtil;
 import com.thangnv.fu.utils.LogUtil;
 import com.thangnv.fu.view.adapters.CustomListAlarmAdapter;
 import com.thangnv.fu.view.dialogs.AlarmDialog;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.realm.Realm;
@@ -35,7 +37,7 @@ public class AlarmFragment extends BaseFragment implements OnSaveAlarmListener {
     private List<AlarmInfo> mAlarmInfos;
     //private ImageView addAlarm;
     //private TextView deleteAlarm;
-
+    private AlarmInfo alarmInfo;
 
     public AlarmFragment() {
     }
@@ -58,7 +60,8 @@ public class AlarmFragment extends BaseFragment implements OnSaveAlarmListener {
         adapter = new CustomListAlarmAdapter(getActivity(), mAlarmInfos, new OnClickItemListViewListener() {
             @Override
             public void OnClickItem(View mView, int position) {
-                AlarmDialog alarmDialog = new AlarmDialog(getActivity(), mAlarmInfos.get(position).getTimeAlarm(),
+                alarmInfo = mAlarmInfos.get(position);
+                AlarmDialog alarmDialog = new AlarmDialog(getActivity(),alarmInfo,
                         position, AlarmFragment.this);
                 WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
                 lp.copyFrom(alarmDialog.getWindow().getAttributes());
@@ -67,6 +70,7 @@ public class AlarmFragment extends BaseFragment implements OnSaveAlarmListener {
                 alarmDialog.show();
                 alarmDialog.getWindow().setAttributes(lp);
             }
+
             @Override
             public void onUpdateStatus(View mView, boolean status, long id, int position) {
                 AlarmInfo mAlarmInfo = DbUtil.getInstance().updateAlarmStatus(realm, status, id);
@@ -99,7 +103,7 @@ public class AlarmFragment extends BaseFragment implements OnSaveAlarmListener {
     @Override
     public void onDetach() {
         super.onDetach();
-}
+    }
 
 
     @Override
@@ -108,27 +112,31 @@ public class AlarmFragment extends BaseFragment implements OnSaveAlarmListener {
     }
 
     @Override
-    public void onSaveSuccess(String time, int position, int state) {
+    public void onSaveSuccess(AlarmInfo alarmInfo, int position, int state) {
         if (state == STATE_EDIT) {
-            AlarmInfo mAlarmInfo = DbUtil.getInstance().updateAlarmTime(realm, time, mAlarmInfos.get(position).getId());
+            AlarmInfo mAlarmInfo = DbUtil.getInstance().updateAlarm(realm, alarmInfo, mAlarmInfos.get(position).getId());
             mAlarmInfos.set(position, mAlarmInfo);
             adapter.notifyDataSetChanged();
             LogUtil.d(TAG, "Update alarm");
         } else {
-            AlarmInfo mAlarmInfo = new AlarmInfo();
-            mAlarmInfo.setTimeAlarm(time);
+            AlarmInfo mAlarmInfo = alarmInfo;
+            mAlarmInfo.setTimeAlarm(alarmInfo.getTimeAlarm());
             mAlarmInfo.setStateAlarm(true);
             long maxId = 1;
-            if(realm.isEmpty()){
+            if (realm.isEmpty()) {
                 LogUtil.d(TAG, "onSaveSuccess: isEmpty");
-            }else{
+            } else {
                 LogUtil.d(TAG, "onSaveSuccess: not Empty");
-                maxId = (long) realm.where(AlarmInfo.class).max("id")+1;
+                maxId = (long) realm.where(AlarmInfo.class).max("id") + 1;
             }
             mAlarmInfo.setId(maxId);
+            List<RealmInteger> realmIntegers = new ArrayList<>();
+            for(int i=0;i<alarmInfo.getDayRepeate().size();i++){
+                realmIntegers.add(alarmInfo.getDayRepeate().get(i));
+            }
             mAlarmInfos.add(mAlarmInfo);
             adapter.notifyDataSetChanged();
-            DbUtil.getInstance().addAlarmToDb(realm, time, true);
+            DbUtil.getInstance().addAlarmToDb(realm, alarmInfo.getTimeAlarm(), true, realmIntegers);
             LogUtil.d(TAG, "Add data to database");
         }
     }

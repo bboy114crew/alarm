@@ -10,8 +10,10 @@ import android.widget.CheckedTextView;
 import com.thangnv.fu.R;
 import com.thangnv.fu.common.Constants;
 import com.thangnv.fu.listener.OnClickOptionAlarmListner;
+import com.thangnv.fu.model.RealmInteger;
 import com.thangnv.fu.utils.LogUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.thangnv.fu.R.id.simpleCheckedTextView;
@@ -25,17 +27,19 @@ public class CustomListDayAdapter extends BaseAdapter {
     private Context context;
     private LayoutInflater layoutInflater;
     private String value;
-    private boolean[] listSelected;
+    private List<RealmInteger> listDayRepeate;
     private OnClickOptionAlarmListner onClickOptionAlarmListner;
     private String dayString;
-    public CustomListDayAdapter(Context context, List<String> names, OnClickOptionAlarmListner onClickOptionAlarmListner) {
+    private RealmInteger dayRepeate;
+
+
+    public CustomListDayAdapter(Context context, List<String> names, List<RealmInteger> listDayRepeate, OnClickOptionAlarmListner onClickOptionAlarmListner) {
         this.context = context;
         this.names = names;
         layoutInflater = (LayoutInflater.from(context));
         this.onClickOptionAlarmListner = onClickOptionAlarmListner;
-//        listSelected = ((MainActivity)context).getDayRepeate();
+        this.listDayRepeate = listDayRepeate;
     }
-
     @Override
     public int getCount() {
         return names.size();
@@ -65,6 +69,15 @@ public class CustomListDayAdapter extends BaseAdapter {
         }
 
         viewHolder.checkedTextView.setText(names.get(position));
+        if (listDayRepeate != null) {
+            for (int i = 0; i < listDayRepeate.size(); i++) {
+                if (position == listDayRepeate.get(i).getValue()) {
+                    viewHolder.checkedTextView.setCheckMarkDrawable(R.drawable.ic_checked);
+                    viewHolder.checkedTextView.setChecked(true);
+                    break;
+                }
+            }
+        }
 
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,13 +87,27 @@ public class CustomListDayAdapter extends BaseAdapter {
                         value = "un-Checked";
                         viewHolder.checkedTextView.setCheckMarkDrawable(null);
                         viewHolder.checkedTextView.setChecked(false);
-
-
+                        if (listDayRepeate != null) {
+                            int check = getPosition(listDayRepeate, position);
+                            if (check != -1) {
+                                listDayRepeate.remove(listDayRepeate.get(check));
+                            }
+                        }
                     } else {
                         value = "Checked";
-                        viewHolder.checkedTextView.setCheckMarkDrawable(R.drawable.ic_checked);
-                        viewHolder.checkedTextView.setChecked(true);
-
+                            viewHolder.checkedTextView.setCheckMarkDrawable(R.drawable.ic_checked);
+                            viewHolder.checkedTextView.setChecked(true);
+                            dayRepeate = new RealmInteger();
+                            dayRepeate.setValue(position);
+                            if (listDayRepeate == null) {
+                                listDayRepeate = new ArrayList<>();
+                                listDayRepeate.add(dayRepeate);
+                            } else {
+                            int check = getPosition(listDayRepeate, position);
+                            if (check == -1) {
+                                listDayRepeate.add(dayRepeate);
+                            }
+                        }
                     }
 
                 }
@@ -90,9 +117,21 @@ public class CustomListDayAdapter extends BaseAdapter {
         return view;
     }
 
-    public String getStringFromPosition(int position){
+    private int getPosition(List<RealmInteger> listDayRepeate, int positionClick) {
+        int check = -1;
+        if (listDayRepeate != null && listDayRepeate.size() > 0) {
+            for (int i = 0; i < listDayRepeate.size(); i++) {
+                if (listDayRepeate.get(i).getValue() == positionClick) {
+                    check = i;
+                }
+            }
+        }
+        return check;
+    }
 
-        switch (position){
+    public String getStringFromPosition(int position) {
+
+        switch (position) {
             case Constants.MONDAY:
                 dayString = "Monday";
                 break;
@@ -111,7 +150,7 @@ public class CustomListDayAdapter extends BaseAdapter {
             case Constants.SATURDAY:
                 dayString = "Saturday";
                 break;
-            case Constants.SUNDAY :
+            case Constants.SUNDAY:
                 dayString = "Sunday";
                 break;
             default:

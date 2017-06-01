@@ -1,5 +1,6 @@
 package com.thangnv.fu.model;
 
+import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
@@ -12,23 +13,29 @@ public class AlarmInfo extends RealmObject {
     private long id;
     private String timeAlarm;
     private boolean stateAlarm;
-    private int alarmType;
+    //private int alarmType;
 //    private String labelAlarm;
 //    private String soundAlarm;
 //    private boolean stateSnoodze;
-//    public RealmList<RealmBoolean> dayRepeate;
+    private RealmList<RealmInteger> dayRepeate;
 
     public AlarmInfo() {
+        dayRepeate = new RealmList<>();
+        for (int i = 0; i < 7; i++) {
+            RealmInteger realmInteger = new RealmInteger();
+            realmInteger.setValue(0);
+            dayRepeate.add(realmInteger);
+        }
     }
-//    public ArrayList<Integer> getDayRepeate() {
-//        return dayRepeate;
-//    }
-//
-//    public void setDayRe peate(ArrayList<Integer> dayRepeate) {
-//        this.dayRepeate = dayRepeate;
-//    }
 
-//    public boolean isStateSnoodze() {
+    public RealmList<RealmInteger> getDayRepeate() {
+        return dayRepeate;
+    }
+
+    public void setDayRepeate(RealmList<RealmInteger> dayRepeate) {
+        this.dayRepeate = dayRepeate;
+    }
+    //    public boolean isStateSnoodze() {
 //        return stateSnoodze;
 //    }
 //

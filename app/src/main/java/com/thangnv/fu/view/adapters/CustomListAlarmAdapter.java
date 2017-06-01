@@ -2,6 +2,7 @@ package com.thangnv.fu.view.adapters;
 
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -71,13 +72,16 @@ public class CustomListAlarmAdapter extends BaseAdapter {
         }
         AlarmInfo alarmInfo = this.listData.get(position);
         viewHolder.timeAlarm.setText(alarmInfo.getTimeAlarm());
+        Log.d(TAG, "Time" + alarmInfo.getTimeAlarm());
         String[] parts = alarmInfo.getTimeAlarm().split(":");
+
         int newHour = Integer.parseInt(parts[0]);
         if (newHour > 12) {
             viewHolder.tvState.setText("PM");
         } else {
             viewHolder.tvState.setText("AM");
         }
+
         viewHolder.stateAlarm.setChecked(alarmInfo.isStateAlarm());
         int color = getColor(context, R.color.text_dark);
         if (!alarmInfo.isStateAlarm()) {
@@ -87,7 +91,7 @@ public class CustomListAlarmAdapter extends BaseAdapter {
         viewHolder.stateAlarm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (checkDataSize(listData,position)) {
+                if (checkDataSize(listData, position)) {
                     AlarmInfo alarmInfo = listData.get(position);
                     LogUtil.d(TAG, "switch " + alarmInfo.isStateAlarm() + " to " + !alarmInfo.isStateAlarm());
                     boolean new_status = !alarmInfo.isStateAlarm();
@@ -129,7 +133,8 @@ public class CustomListAlarmAdapter extends BaseAdapter {
         private TextView timeAlarm;
         private TextView tvState;
         private Switch stateAlarm;
-        public ViewHolder (View view){
+
+        public ViewHolder(View view) {
             this.timeAlarm = (TextView) view.findViewById(R.id.tv_TimeAlarm);
             this.tvState = (TextView) view.findViewById(R.id.tv_State);
             this.stateAlarm = (Switch) view.findViewById(R.id.sw_state);

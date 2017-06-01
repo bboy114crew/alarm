@@ -15,13 +15,12 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.thangnv.fu.R;
-import com.thangnv.fu.listener.OnClickOptionAlarmListner;
 import com.thangnv.fu.listener.OnSaveAlarmListener;
+import com.thangnv.fu.model.AlarmInfo;
 import com.thangnv.fu.utils.LogUtil;
 import com.thangnv.fu.utils.Util;
 
 import java.util.Calendar;
-import java.util.HashMap;
 
 import static com.thangnv.fu.common.Constants.STATE_ADD;
 import static com.thangnv.fu.common.Constants.STATE_EDIT;
@@ -30,7 +29,7 @@ import static com.thangnv.fu.common.Constants.STATE_EDIT;
  * Created by ll on 5/16/2017.
  */
 
-public class AlarmDialog extends Dialog implements View.OnClickListener,OnClickOptionAlarmListner{
+public class AlarmDialog extends Dialog implements View.OnClickListener {
     private static final String TAG = "AlarmDialog";
 
     private TextView btnCancel;
@@ -44,6 +43,7 @@ public class AlarmDialog extends Dialog implements View.OnClickListener,OnClickO
     private Switch swStateSnoodze;
     private String time;
     private int position;
+    private AlarmInfo alarmInfo;
     private OnSaveAlarmListener mOnSaveAlarmListener;
     private int state = STATE_ADD;
 
@@ -52,9 +52,9 @@ public class AlarmDialog extends Dialog implements View.OnClickListener,OnClickO
         this.mOnSaveAlarmListener = mOnSaveAlarmListener;
     }
 
-    public AlarmDialog(Context activity, String time, int position, OnSaveAlarmListener mOnSaveAlarmListener) {
+    public AlarmDialog(Context activity, AlarmInfo alarmInfo, int position, OnSaveAlarmListener mOnSaveAlarmListener) {
         super(activity);
-        this.time = time;
+        this.alarmInfo = alarmInfo;
         this.position = position;
         this.mOnSaveAlarmListener = mOnSaveAlarmListener;
     }
@@ -74,14 +74,16 @@ public class AlarmDialog extends Dialog implements View.OnClickListener,OnClickO
         relativeLayout2 = (RelativeLayout) findViewById(R.id.relativeLayout2);
         relativeLayout3 = (RelativeLayout) findViewById(R.id.relativeLayout3);
         relativeLayout4 = (RelativeLayout) findViewById(R.id.relativeLayout4);
-        swStateSnoodze = (Switch)  findViewById(R.id.sw_state_snoodze);
+        swStateSnoodze = (Switch) findViewById(R.id.sw_state_snoodze);
         relativeLayout1.setOnClickListener(this);
         relativeLayout2.setOnClickListener(this);
         relativeLayout3.setOnClickListener(this);
         relativeLayout4.setOnClickListener(this);
         swStateSnoodze.setOnClickListener(this);
         btnDelete.setVisibility(View.INVISIBLE);
-        if (time != null) {
+        //case edit alarm
+        if (alarmInfo != null) {
+            time = alarmInfo.getTimeAlarm();
             String[] parts = time.split(":");
             int newHour = Integer.parseInt(parts[0]);
             int newMinutes = Integer.parseInt(parts[1]);
@@ -97,23 +99,28 @@ public class AlarmDialog extends Dialog implements View.OnClickListener,OnClickO
             }
 
         } else {
+            //case add alarm
+            alarmInfo=new AlarmInfo();
             Calendar cal = Calendar.getInstance();
             time = cal.get(Calendar.HOUR_OF_DAY) + ":" + cal.get(Calendar.MINUTE);
+            alarmInfo.setTimeAlarm(time);
             time = Util.setTimeAlarm(cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE));
         }
         timePicker.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
             @Override
             public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
                 Log.d(TAG, "onTimeChanged: " + hourOfDay + ":" + minute);
+                alarmInfo.setTimeAlarm(hourOfDay + ":" + minute);
                 time = Util.setTimeAlarm(hourOfDay, minute);
+
             }
         });
 
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                mOnSaveAlarmListener.onSaveSuccess(time, position, state);
+                Log.d(TAG, "onClick: btnSave");
+                mOnSaveAlarmListener.onSaveSuccess(alarmInfo, position, state);
                 dismiss();
             }
         });
@@ -125,14 +132,16 @@ public class AlarmDialog extends Dialog implements View.OnClickListener,OnClickO
                 dismiss();
             }
         });
+
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.relativeLayout1:
                 LogUtil.d(TAG, "Chooose Repeate");
-                DayDialog dayDialog= new DayDialog(getContext());
+                if(alarmInfo == null) alarmInfo = new AlarmInfo();
+                DayDialog dayDialog = new DayDialog(getContext(), alarmInfo);
                 WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
                 lp.copyFrom(dayDialog.getWindow().getAttributes());
                 lp.width = WindowManager.LayoutParams.MATCH_PARENT;
@@ -165,17 +174,6 @@ public class AlarmDialog extends Dialog implements View.OnClickListener,OnClickO
                 LogUtil.d(TAG, "Switch state of snoodze");
                 break;
         }
-    }
-
-
-    @Override
-    public void addDayRepeate(View view, HashMap<String, Boolean> dayRepeate) {
-
-    }
-
-    @Override
-    public boolean[] getListDayRepeate() {
-        return new boolean[0];
     }
 
 

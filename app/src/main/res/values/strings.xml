@@ -14,4 +14,8 @@
     <string name="snoodze">Vibrate</string>
     <string name="delete_alarm">Delete Alarm</string>
     <string name="back">Back</string>
+
+    <string-array name="day_repeate">
+        <item>M</item>
+    </string-array>
 </resources>
